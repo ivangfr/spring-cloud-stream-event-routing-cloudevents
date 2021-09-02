@@ -11,5 +11,4 @@ class ProducerServiceApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

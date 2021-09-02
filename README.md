@@ -1,16 +1,16 @@
 # spring-cloud-stream-event-routing-cloudevents
 
-The goal of this project is to play with [`Spring Cloud Stream Event Routing`](https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_event_routing) and [`CloudEvents`](https://cloudevents.io/). For it, we will implement a `news` producer and a consumer.
+The goal of this project is to play with [`Spring Cloud Stream Event Routing`](https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_event_routing) and [`CloudEvents`](https://cloudevents.io/). For it, we will implement a producer and consumer of `news` & `alert` events.
 
 ## Applications
 
 - ### producer-service
 
-  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to submit `news` events from different broadcasters.
+  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to submit `news` & `alert` events.
 
 - ### consumer-service
 
-  `Spring Boot` application that consumes the `news` events published by `producer-service`.
+  `Spring Boot` application that consumes the `news` & `alert` events published by `producer-service`.
 
 ## Prerequisites
 
@@ -51,16 +51,21 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
 ## Playing around
 
 Submit the following POST requests to `producer-service` and check the logs in `consumer-service`
-```
-curl -i -X POST localhost:9080/v1/news/dw \
-  -H "Content-Type: application/json" -d '{"titel":"Berliner Untergrundstreik"}'
 
-curl -i -X POST localhost:9080/v1/news/cnn \
-  -H "Content-Type: application/json" -d '{"title":"NYC subway strike"}'
+> **Note:** [HTTPie](https://httpie.org/) is being used in the calls bellow
 
-curl -i -X POST localhost:9080/v1/news/rai \
-  -H "Content-Type: application/json" -d '{"titolo":"Sciopero della metropolitana di Roma"}'
-```
+- **news**
+  ```
+  http :9080/api/news/dw titel="Berliner Untergrundstreik"
+  http :9080/api/news/cnn title="NYC subway strike"
+  http :9080/api/news/rai titolo="Sciopero della metropolitana di Roma"
+  ```
+
+- **alert**
+  ```
+  http :9080/api/alerts/earthquake richterScale=5.5 epicenterLat=37.7840781 epicenterLon=-25.7977037
+  http :9080/api/alerts/weather message="Thunderstorm in Berlin"
+  ```
 
 ## Shutdown
 
@@ -69,3 +74,7 @@ curl -i -X POST localhost:9080/v1/news/rai \
   ```
   docker-compose down -v
   ```
+
+## References
+
+https://stackoverflow.com/questions/61135632/spring-cloud-function-separate-routing-expression-for-different-consumer
