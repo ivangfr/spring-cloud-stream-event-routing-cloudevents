@@ -75,6 +75,20 @@ Submit the following POST requests to `producer-service` and check the logs in `
   docker-compose down -v
   ```
 
+## Running Test Cases
+
+- In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloudevents` root folder
+- Execute the following Maven command to run `producer-service` and `consumer-service` test cases
+  ```
+  ./mvnw clean test
+  ```
+  In order to run the test cases of each service separately
+  ```
+  ./mvnw clean test --projects producer-service
+  ./mvnw clean test --projects consumer-service
+  ```
+
 ## References
 
-https://stackoverflow.com/questions/61135632/spring-cloud-function-separate-routing-expression-for-different-consumer
+- https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html
+- https://stackoverflow.com/questions/61135632/spring-cloud-function-separate-routing-expression-for-different-consumer
