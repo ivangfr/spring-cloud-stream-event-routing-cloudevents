@@ -48,6 +48,59 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
     ./mvnw clean spring-boot:run --projects consumer-service
     ```
 
+## Running Applications as Docker containers
+
+- ### Build Docker Images
+
+  - In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloudevents` root folder
+  - Run the following script to build the Docker images
+    - JVM
+      ```
+      ./docker-build.sh
+      ```
+    - Native (it's not implemented yes)
+      ```
+      ./docker-build.sh native
+      ```
+
+- ### Environment Variables
+
+  - **producer-service**
+
+    | Environment Variable | Description                                                             |
+    | -------------------- | ----------------------------------------------------------------------- |
+    | `KAFKA_HOST`         | Specify host of the `Kafka` message broker to use (default `localhost`) |
+    | `KAFKA_PORT`         | Specify port of the `Kafka` message broker to use (default `29092`)     |
+
+  - **consumer-service**
+
+    | Environment Variable | Description                                                             |
+    | -------------------- | ----------------------------------------------------------------------- |
+    | `KAFKA_HOST`         | Specify host of the `Kafka` message broker to use (default `localhost`) |
+    | `KAFKA_PORT`         | Specify port of the `Kafka` message broker to use (default `29092`)     |
+
+- ### Run Docker Containers
+
+  - **producer-service**
+    
+    Run the following command in a terminal
+    ```
+    docker run --rm --name producer-service -p 9080:9080 \
+      -e KAFKA_HOST=kafka -e KAFKA_PORT=9092 \
+      --network=spring-cloud-stream-event-routing-cloudevents_default \
+      ivanfranchin/producer-service:1.0.0
+    ```
+
+  - **consumer-service**
+    
+    Open a new terminal and run the following command
+    ```
+    docker run --rm --name consumer-service -p 9081:9081 \
+      -e KAFKA_HOST=kafka -e KAFKA_PORT=9092 \
+      --network=spring-cloud-stream-event-routing-cloudevents_default \
+      ivanfranchin/consumer-service:1.0.0
+    ```
+
 ## Playing around
 
 Submit the following POST requests to `producer-service` and check the logs in `consumer-service`
@@ -74,6 +127,13 @@ Submit the following POST requests to `producer-service` and check the logs in `
   ```
   docker-compose down -v
   ```
+
+## Cleanup
+
+To remove the Docker images created by this project, go to a terminal and run the following command
+```
+docker rmi ivanfranchin/producer-service:1.0.0 ivanfranchin/consumer-service:1.0.0
+```
 
 ## Running Test Cases
 
