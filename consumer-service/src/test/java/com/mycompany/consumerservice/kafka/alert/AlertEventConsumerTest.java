@@ -1,6 +1,7 @@
 package com.mycompany.consumerservice.kafka.alert;
 
 import com.mycompany.consumerservice.ConsumerServiceApplication;
+import com.mycompany.consumerservice.kafka.alert.event.AlertEvent;
 import com.mycompany.consumerservice.kafka.alert.event.EarthquakeAlert;
 import com.mycompany.consumerservice.kafka.alert.event.WeatherAlert;
 import org.junit.jupiter.api.Test;
@@ -28,14 +29,15 @@ class AlertEventConsumerTest {
                 .web(WebApplicationType.NONE)
                 .run("--spring.jmx.enabled=false")) {
 
-            Message<EarthquakeAlert> message = CloudEventMessageBuilder
-                    .withData(new EarthquakeAlert("1", 2.1, 1.0, -1.0))
+            AlertEvent alertEvent = new EarthquakeAlert("1", 2.1, 1.0, -1.0);
+            Message<AlertEvent> alertEventMessage = CloudEventMessageBuilder
+                    .withData(alertEvent)
                     .setHeader(PARTITION_KEY, "earthquake")
                     .setHeader(TYPE, "earthquake")
                     .build();
 
             InputDestination inputDestination = context.getBean(InputDestination.class);
-            inputDestination.send(message, DESTINATION_NAME);
+            inputDestination.send(alertEventMessage, DESTINATION_NAME);
 
             assertThat(output).contains("Received Earthquake alert!");
             assertThat(output).contains("PAYLOAD: EarthquakeAlert(id=1, richterScale=2.1, epicenterLat=1.0, epicenterLon=-1.0)");
@@ -50,14 +52,15 @@ class AlertEventConsumerTest {
                 .web(WebApplicationType.NONE)
                 .run("--spring.jmx.enabled=false")) {
 
-            Message<WeatherAlert> message = CloudEventMessageBuilder
-                    .withData(new WeatherAlert("1", "message"))
+            AlertEvent alertEvent = new WeatherAlert("1", "message");
+            Message<AlertEvent> alertEventMessage = CloudEventMessageBuilder
+                    .withData(alertEvent)
                     .setHeader(PARTITION_KEY, "weather")
                     .setHeader(TYPE, "weather")
                     .build();
 
             InputDestination inputDestination = context.getBean(InputDestination.class);
-            inputDestination.send(message, DESTINATION_NAME);
+            inputDestination.send(alertEventMessage, DESTINATION_NAME);
 
             assertThat(output).contains("Received Weather alert!");
             assertThat(output).contains("PAYLOAD: WeatherAlert(id=1, message=message)");

@@ -6,11 +6,14 @@ import com.mycompany.producerservice.kafka.alert.event.AlertEvent;
 import com.mycompany.producerservice.kafka.alert.event.EarthquakeAlert;
 import com.mycompany.producerservice.kafka.alert.event.WeatherAlert;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -22,17 +25,21 @@ public class AlertController {
 
     private final AlertEventProducer alertEventProducer;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/earthquake")
-    public Message<AlertEvent> createEarthquakeAlert(@Valid @RequestBody CreateEarthquakeAlertRequest request) {
+    public Mono<Message<AlertEvent>> createEarthquakeAlert(@Valid @RequestBody CreateEarthquakeAlertRequest request) {
         EarthquakeAlert earthquakeAlert = EarthquakeAlert.of(
                 getId(), request.getRichterScale(), request.getEpicenterLat(), request.getEpicenterLon());
-        return alertEventProducer.send(AlertType.EARTHQUAKE, earthquakeAlert);
+        Message<AlertEvent> alertEventMessage = alertEventProducer.send(AlertType.EARTHQUAKE, earthquakeAlert);
+        return Mono.just(alertEventMessage);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/weather")
-    public Message<AlertEvent> createWeatherAlert(@Valid @RequestBody CreateWeatherAlertRequest request) {
+    public Mono<Message<AlertEvent>> createWeatherAlert(@Valid @RequestBody CreateWeatherAlertRequest request) {
         WeatherAlert weatherAlert = WeatherAlert.of(getId(), request.getMessage());
-        return alertEventProducer.send(AlertType.WEATHER, weatherAlert);
+        Message<AlertEvent> alertEventMessage = alertEventProducer.send(AlertType.WEATHER, weatherAlert);
+        return Mono.just(alertEventMessage);
     }
 
     private String getId() {

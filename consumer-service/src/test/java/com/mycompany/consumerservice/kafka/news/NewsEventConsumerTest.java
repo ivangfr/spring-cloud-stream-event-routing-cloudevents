@@ -2,6 +2,7 @@ package com.mycompany.consumerservice.kafka.news;
 
 import com.mycompany.consumerservice.kafka.news.event.CNNNewsCreated;
 import com.mycompany.consumerservice.kafka.news.event.DWNewsCreated;
+import com.mycompany.consumerservice.kafka.news.event.NewsEvent;
 import com.mycompany.consumerservice.kafka.news.event.RAINewsCreated;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,13 +28,14 @@ class NewsEventConsumerTest {
 
     @Test
     void testCNN(CapturedOutput output) {
-        Message<CNNNewsCreated> message = CloudEventMessageBuilder
-                .withData(new CNNNewsCreated("1", "title"))
+        NewsEvent newsEvent = new CNNNewsCreated("1", "title");
+        Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
+                .withData(newsEvent)
                 .setHeader(PARTITION_KEY, "cnn")
                 .setHeader(TYPE, "cnn")
                 .build();
 
-        inputDestination.send(message, DESTINATION_NAME);
+        inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Received news created message from CNN!");
         assertThat(output).contains("PAYLOAD: CNNNewsCreated(id=1, title=title)");
@@ -41,13 +43,14 @@ class NewsEventConsumerTest {
 
     @Test
     void testDW(CapturedOutput output) {
-        Message<DWNewsCreated> message = CloudEventMessageBuilder
-                .withData(new DWNewsCreated("1", "titel"))
+        NewsEvent newsEvent = new DWNewsCreated("1", "titel");
+        Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
+                .withData(newsEvent)
                 .setHeader(PARTITION_KEY, "dw")
                 .setHeader(TYPE, "dw")
                 .build();
 
-        inputDestination.send(message, DESTINATION_NAME);
+        inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Erhaltene Nachrichten erstellte Nachricht von DW!");
         assertThat(output).contains("PAYLOAD: DWNewsCreated(id=1, titel=titel)");
@@ -55,13 +58,14 @@ class NewsEventConsumerTest {
 
     @Test
     void testRAI(CapturedOutput output) {
-        Message<RAINewsCreated> message = CloudEventMessageBuilder
-                .withData(new RAINewsCreated("1", "titolo"))
+        NewsEvent newsEvent = new RAINewsCreated("1", "titolo");
+        Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
+                .withData(newsEvent)
                 .setHeader(PARTITION_KEY, "rai")
                 .setHeader(TYPE, "rai")
                 .build();
 
-        inputDestination.send(message, DESTINATION_NAME);
+        inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Ricevuta notizia creata messaggio da RAI!");
         assertThat(output).contains("PAYLOAD: RAINewsCreated(id=1, titolo=titolo)");
