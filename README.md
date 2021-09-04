@@ -8,6 +8,15 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
 
   [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to submit `news` & `alert` events.
 
+  Endpoints
+  ```
+  POST /api/news/cnn {"title": "..."}
+  POST /api/news/dw {"titel": "..."}
+  POST /api/news/rai {"titolo": "..."}
+  POST /api/alert/earthquake {"richterScale": "...", "epicenterLat": "...", "epicenterLon": "..."}
+  POST /api/alert/weather {"message": "..."}
+  ```
+
 - ### consumer-service
 
   `Spring Boot` application that consumes the `news` & `alert` events published by `producer-service`.
@@ -143,7 +152,7 @@ In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloud
   ```
   ./mvnw clean test --projects producer-service
   ```
-- 
+
 - **consumer-service**
   ```
   ./mvnw clean test --projects consumer-service
