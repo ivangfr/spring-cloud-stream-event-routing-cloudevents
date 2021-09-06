@@ -29,7 +29,7 @@ class AlertEventConsumerTest {
                 .web(WebApplicationType.NONE)
                 .run("--spring.jmx.enabled=false")) {
 
-            AlertEvent alertEvent = new EarthquakeAlert("1", 2.1, 1.0, -1.0);
+            AlertEvent alertEvent = new EarthquakeAlert("id", 2.1, 1.0, -1.0);
             Message<AlertEvent> alertEventMessage = CloudEventMessageBuilder
                     .withData(alertEvent)
                     .setHeader(PARTITION_KEY, "earthquake")
@@ -40,7 +40,7 @@ class AlertEventConsumerTest {
             inputDestination.send(alertEventMessage, DESTINATION_NAME);
 
             assertThat(output).contains("Received Earthquake alert!");
-            assertThat(output).contains("PAYLOAD: EarthquakeAlert(id=1, richterScale=2.1, epicenterLat=1.0, epicenterLon=-1.0)");
+            assertThat(output).contains("PAYLOAD: EarthquakeAlert(id=id, richterScale=2.1, epicenterLat=1.0, epicenterLon=-1.0)");
         }
     }
 
@@ -52,7 +52,7 @@ class AlertEventConsumerTest {
                 .web(WebApplicationType.NONE)
                 .run("--spring.jmx.enabled=false")) {
 
-            AlertEvent alertEvent = new WeatherAlert("1", "message");
+            AlertEvent alertEvent = new WeatherAlert("id", "message");
             Message<AlertEvent> alertEventMessage = CloudEventMessageBuilder
                     .withData(alertEvent)
                     .setHeader(PARTITION_KEY, "weather")
@@ -63,7 +63,7 @@ class AlertEventConsumerTest {
             inputDestination.send(alertEventMessage, DESTINATION_NAME);
 
             assertThat(output).contains("Received Weather alert!");
-            assertThat(output).contains("PAYLOAD: WeatherAlert(id=1, message=message)");
+            assertThat(output).contains("PAYLOAD: WeatherAlert(id=id, message=message)");
         }
     }
 

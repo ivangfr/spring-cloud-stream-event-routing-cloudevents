@@ -1,5 +1,6 @@
 package com.mycompany.producerservice.kafka.news;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.producerservice.kafka.news.event.CNNNewsCreated;
 import com.mycompany.producerservice.kafka.news.event.DWNewsCreated;
 import com.mycompany.producerservice.kafka.news.event.RAINewsCreated;
@@ -14,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
+import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,13 +30,17 @@ class NewsEventProducerTest {
     @Autowired
     private NewsEventProducer newsEventProducer;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
-    void testSendCNNNewsCreated() {
-        newsEventProducer.send(BroadcasterType.CNN, CNNNewsCreated.of("1", "title"));
+    void testSendCNNNewsCreated() throws IOException {
+        CNNNewsCreated cnnNewsCreated = CNNNewsCreated.of("id", "title");
+        newsEventProducer.send(BroadcasterType.CNN, cnnNewsCreated);
 
         Message<byte[]> outputMessage = outputDestination.receive(0, "news.events");
         MessageHeaders headers = outputMessage.getHeaders();
-        String payloadStr = new String(outputMessage.getPayload(), StandardCharsets.UTF_8);
+        CNNNewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), CNNNewsCreated.class);
 
         assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
         assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
@@ -44,16 +49,19 @@ class NewsEventProducerTest {
         assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
         assertThat(headers.get(PARTITION_KEY)).isEqualTo("cnn");
         assertThat(headers.get(TYPE)).isEqualTo("cnn");
-        assertThat(payloadStr).isEqualTo("{\"id\":\"1\",\"title\":\"title\"}");
+
+        assertThat(payload.getId()).isEqualTo(cnnNewsCreated.getId());
+        assertThat(payload.getTitle()).isEqualTo(cnnNewsCreated.getTitle());
     }
 
     @Test
-    void testSendDWNewsCreated() {
-        newsEventProducer.send(BroadcasterType.DW, DWNewsCreated.of("1", "titel"));
+    void testSendDWNewsCreated() throws IOException {
+        DWNewsCreated dwNewsCreated = DWNewsCreated.of("id", "titel");
+        newsEventProducer.send(BroadcasterType.DW, dwNewsCreated);
 
         Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
         MessageHeaders headers = outputMessage.getHeaders();
-        String payloadStr = new String(outputMessage.getPayload(), StandardCharsets.UTF_8);
+        DWNewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), DWNewsCreated.class);
 
         assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
         assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
@@ -62,16 +70,19 @@ class NewsEventProducerTest {
         assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
         assertThat(headers.get(PARTITION_KEY)).isEqualTo("dw");
         assertThat(headers.get(TYPE)).isEqualTo("dw");
-        assertThat(payloadStr).isEqualTo("{\"id\":\"1\",\"titel\":\"titel\"}");
+
+        assertThat(payload.getId()).isEqualTo(dwNewsCreated.getId());
+        assertThat(payload.getTitel()).isEqualTo(dwNewsCreated.getTitel());
     }
 
     @Test
-    void testSendRAINewsCreated() {
-        newsEventProducer.send(BroadcasterType.RAI, RAINewsCreated.of("1", "titolo"));
+    void testSendRAINewsCreated() throws IOException {
+        RAINewsCreated raiNewsCreated = RAINewsCreated.of("id", "titolo");
+        newsEventProducer.send(BroadcasterType.RAI, raiNewsCreated);
 
         Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
         MessageHeaders headers = outputMessage.getHeaders();
-        String payloadStr = new String(outputMessage.getPayload(), StandardCharsets.UTF_8);
+        RAINewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), RAINewsCreated.class);
 
         assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
         assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
@@ -80,7 +91,9 @@ class NewsEventProducerTest {
         assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
         assertThat(headers.get(PARTITION_KEY)).isEqualTo("rai");
         assertThat(headers.get(TYPE)).isEqualTo("rai");
-        assertThat(payloadStr).isEqualTo("{\"id\":\"1\",\"titolo\":\"titolo\"}");
+
+        assertThat(payload.getId()).isEqualTo(raiNewsCreated.getId());
+        assertThat(payload.getTitolo()).isEqualTo(raiNewsCreated.getTitolo());
     }
 
     private static final String BINDING_NAME = "news.events";

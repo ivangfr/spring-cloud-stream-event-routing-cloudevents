@@ -9,13 +9,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.nativex.hint.TypeHint;
 
-import java.util.LinkedHashMap;
-
 @TypeHint(
         types = {
                 EarthquakeAlert.class, WeatherAlert.class,
-                CNNNewsCreated.class, DWNewsCreated.class, RAINewsCreated.class,
-                LinkedHashMap.class
+                CNNNewsCreated.class, DWNewsCreated.class, RAINewsCreated.class
         })
 @SpringBootApplication
 public class ProducerServiceApplication {

@@ -1,5 +1,6 @@
 package com.mycompany.producerservice.kafka.alert;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.producerservice.ProducerServiceApplication;
 import com.mycompany.producerservice.kafka.alert.event.EarthquakeAlert;
 import com.mycompany.producerservice.kafka.alert.event.WeatherAlert;
@@ -14,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
+import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,12 +31,15 @@ class AlertEventProducerTest {
                 .run("--spring.jmx.enabled=false")) {
 
             AlertEventProducer alertEventProducer = context.getBean(AlertEventProducer.class);
-            alertEventProducer.send(AlertType.EARTHQUAKE, EarthquakeAlert.of("1", 2.1, 1.0, -1.0));
+            EarthquakeAlert earthquakeAlert = EarthquakeAlert.of("id", 2.1, 1.0, -1.0);
+            alertEventProducer.send(AlertType.EARTHQUAKE, earthquakeAlert);
 
+            ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
             OutputDestination outputDestination = context.getBean(OutputDestination.class);
+
             Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
             MessageHeaders headers = outputMessage.getHeaders();
-            String payloadStr = new String(outputMessage.getPayload(), StandardCharsets.UTF_8);
+            EarthquakeAlert payload = deserialize(objectMapper, outputMessage.getPayload(), EarthquakeAlert.class);
 
             assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
             assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
@@ -44,7 +48,12 @@ class AlertEventProducerTest {
             assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
             assertThat(headers.get(PARTITION_KEY)).isEqualTo("earthquake");
             assertThat(headers.get(TYPE)).isEqualTo("earthquake");
-            assertThat(payloadStr).isEqualTo("{\"id\":\"1\",\"richterScale\":2.1,\"epicenterLat\":1.0,\"epicenterLon\":-1.0}");
+
+            assertThat(payload).isNotNull();
+            assertThat(payload.getId()).isEqualTo(earthquakeAlert.getId());
+            assertThat(payload.getRichterScale()).isEqualTo(earthquakeAlert.getRichterScale());
+            assertThat(payload.getEpicenterLat()).isEqualTo(earthquakeAlert.getEpicenterLat());
+            assertThat(payload.getEpicenterLon()).isEqualTo(earthquakeAlert.getEpicenterLon());
         }
     }
 
@@ -57,12 +66,15 @@ class AlertEventProducerTest {
                 .run("--spring.jmx.enabled=false")) {
 
             AlertEventProducer alertEventProducer = context.getBean(AlertEventProducer.class);
-            alertEventProducer.send(AlertType.WEATHER, WeatherAlert.of("1", "message"));
+            WeatherAlert weatherAlert = WeatherAlert.of("id", "message");
+            alertEventProducer.send(AlertType.WEATHER, weatherAlert);
 
+            ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
             OutputDestination outputDestination = context.getBean(OutputDestination.class);
+
             Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
             MessageHeaders headers = outputMessage.getHeaders();
-            String payloadStr = new String(outputMessage.getPayload(), StandardCharsets.UTF_8);
+            WeatherAlert payload = deserialize(objectMapper, outputMessage.getPayload(), WeatherAlert.class);
 
             assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
             assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
@@ -71,7 +83,18 @@ class AlertEventProducerTest {
             assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
             assertThat(headers.get(PARTITION_KEY)).isEqualTo("weather");
             assertThat(headers.get(TYPE)).isEqualTo("weather");
-            assertThat(payloadStr).isEqualTo("{\"id\":\"1\",\"message\":\"message\"}");
+
+            assertThat(payload).isNotNull();
+            assertThat(payload.getId()).isEqualTo(weatherAlert.getId());
+            assertThat(payload.getMessage()).isEqualTo(weatherAlert.getMessage());
+        }
+    }
+
+    private <T> T deserialize(ObjectMapper objectMapper, byte[] bytes, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(bytes, clazz);
+        } catch (IOException e) {
+            return null;
         }
     }
 

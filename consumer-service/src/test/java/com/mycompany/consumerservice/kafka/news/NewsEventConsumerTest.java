@@ -28,7 +28,7 @@ class NewsEventConsumerTest {
 
     @Test
     void testCNN(CapturedOutput output) {
-        NewsEvent newsEvent = new CNNNewsCreated("1", "title");
+        NewsEvent newsEvent = new CNNNewsCreated("id", "title");
         Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
                 .withData(newsEvent)
                 .setHeader(PARTITION_KEY, "cnn")
@@ -38,12 +38,12 @@ class NewsEventConsumerTest {
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Received news created message from CNN!");
-        assertThat(output).contains("PAYLOAD: CNNNewsCreated(id=1, title=title)");
+        assertThat(output).contains("PAYLOAD: CNNNewsCreated(id=id, title=title)");
     }
 
     @Test
     void testDW(CapturedOutput output) {
-        NewsEvent newsEvent = new DWNewsCreated("1", "titel");
+        NewsEvent newsEvent = new DWNewsCreated("id", "titel");
         Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
                 .withData(newsEvent)
                 .setHeader(PARTITION_KEY, "dw")
@@ -53,12 +53,12 @@ class NewsEventConsumerTest {
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Erhaltene Nachrichten erstellte Nachricht von DW!");
-        assertThat(output).contains("PAYLOAD: DWNewsCreated(id=1, titel=titel)");
+        assertThat(output).contains("PAYLOAD: DWNewsCreated(id=id, titel=titel)");
     }
 
     @Test
     void testRAI(CapturedOutput output) {
-        NewsEvent newsEvent = new RAINewsCreated("1", "titolo");
+        NewsEvent newsEvent = new RAINewsCreated("id", "titolo");
         Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
                 .withData(newsEvent)
                 .setHeader(PARTITION_KEY, "rai")
@@ -68,7 +68,7 @@ class NewsEventConsumerTest {
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Ricevuta notizia creata messaggio da RAI!");
-        assertThat(output).contains("PAYLOAD: RAINewsCreated(id=1, titolo=titolo)");
+        assertThat(output).contains("PAYLOAD: RAINewsCreated(id=id, titolo=titolo)");
     }
 
     private static final String DESTINATION_NAME = "news.events";
