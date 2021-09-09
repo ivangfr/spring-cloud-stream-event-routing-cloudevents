@@ -1,4 +1,4 @@
-package com.mycompany.producerservice.rest.alert;
+package com.mycompany.producerservice.rest.alert.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

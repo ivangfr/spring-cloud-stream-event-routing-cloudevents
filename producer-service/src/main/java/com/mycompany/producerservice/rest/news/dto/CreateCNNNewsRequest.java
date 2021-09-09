@@ -1,4 +1,4 @@
-package com.mycompany.producerservice.rest.alert;
+package com.mycompany.producerservice.rest.news.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateWeatherAlertRequest {
+public class CreateCNNNewsRequest {
 
     @NotBlank
-    private String message;
+    private String title;
 }

@@ -4,6 +4,8 @@ import com.mycompany.producerservice.kafka.alert.AlertEventProducer;
 import com.mycompany.producerservice.kafka.alert.AlertType;
 import com.mycompany.producerservice.kafka.alert.event.EarthquakeAlert;
 import com.mycompany.producerservice.kafka.alert.event.WeatherAlert;
+import com.mycompany.producerservice.rest.alert.dto.CreateEarthquakeAlertRequest;
+import com.mycompany.producerservice.rest.alert.dto.CreateWeatherAlertRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;

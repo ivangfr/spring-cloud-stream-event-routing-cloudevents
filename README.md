@@ -13,8 +13,8 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
   POST /api/news/cnn {"title": "..."}
   POST /api/news/dw {"titel": "..."}
   POST /api/news/rai {"titolo": "..."}
-  POST /api/alert/earthquake {"richterScale": "...", "epicenterLat": "...", "epicenterLon": "..."}
-  POST /api/alert/weather {"message": "..."}
+  POST /api/alerts/earthquake {"richterScale": "...", "epicenterLat": "...", "epicenterLon": "..."}
+  POST /api/alerts/weather {"message": "..."}
   ```
 
 - ### consumer-service
@@ -27,14 +27,14 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
-## Start environment
+## Start Environment
 
 - Open a terminal and inside `spring-cloud-stream-event-routing-cloudevents` root folder run
   ```
   docker-compose up -d
   ```
 
-- Wait until all containers are Up (healthy). You can check their status by running
+- Wait until all containers are `running (healthy)`. You can check their status by running
   ```
   docker-compose ps
   ```
@@ -137,14 +137,6 @@ Submit the following POST requests to `producer-service` and check the logs in `
   docker-compose down -v
   ```
 
-## Cleanup
-
-To remove the Docker images created by this project, go to a terminal and run the following commands
-```
-docker rmi ivanfranchin/producer-service:1.0.0
-docker rmi ivanfranchin/consumer-service:1.0.0
-```
-
 ## Running Test Cases
 
 In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloudevents` root folder
@@ -158,6 +150,14 @@ In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloud
   ```
   ./mvnw clean test --projects consumer-service
   ```
+
+## Cleanup
+
+To remove the Docker images created by this project, go to a terminal and run the following commands
+```
+docker rmi ivanfranchin/producer-service:1.0.0
+docker rmi ivanfranchin/consumer-service:1.0.0
+```
 
 ## References
 

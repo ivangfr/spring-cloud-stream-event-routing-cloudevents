@@ -17,20 +17,20 @@ public class NewsEventConsumer {
     @Bean
     public Consumer<Message<CNNNewsCreated>> cnn() {
         return message -> log.info(
-                LOG_TEMPLATE, "Received news created message from CNN", message.getHeaders(), message.getPayload());
+                LOG_TEMPLATE, "Received news created message from CNN!", message.getHeaders(), message.getPayload());
     }
 
     @Bean
     public Consumer<Message<DWNewsCreated>> dw() {
         return message -> log.info(
-                LOG_TEMPLATE, "Erhaltene Nachrichten erstellte Nachricht von DW", message.getHeaders(), message.getPayload());
+                LOG_TEMPLATE, "Erhaltene Nachrichten erstellte Nachricht von DW!", message.getHeaders(), message.getPayload());
     }
 
     @Bean
     public Consumer<Message<RAINewsCreated>> rai() {
         return message -> log.info(
-                LOG_TEMPLATE, "Ricevuta notizia creata messaggio da RAI", message.getHeaders(), message.getPayload());
+                LOG_TEMPLATE, "Ricevuta notizia creata messaggio da RAI!", message.getHeaders(), message.getPayload());
     }
 
-    private static final String LOG_TEMPLATE = "{}!\n---\nHEADERS: {}\n...\nPAYLOAD: {}\n---";
+    private static final String LOG_TEMPLATE = "{}\n---\nHEADERS: {}\n...\nPAYLOAD: {}\n---";
 }

@@ -25,5 +25,5 @@ public class AlertEventConsumer {
                 LOG_TEMPLATE, "Received Weather alert!", message.getHeaders(), message.getPayload());
     }
 
-    private static final String LOG_TEMPLATE = "{}!\n---\nHEADERS: {}\n...\nPAYLOAD: {}\n---";
+    private static final String LOG_TEMPLATE = "{}\n---\nHEADERS: {}\n...\nPAYLOAD: {}\n---";
 }

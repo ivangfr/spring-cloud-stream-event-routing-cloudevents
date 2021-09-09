@@ -3,6 +3,8 @@ package com.mycompany.producerservice.rest.alert;
 import com.mycompany.producerservice.kafka.alert.AlertEventProducer;
 import com.mycompany.producerservice.kafka.alert.event.EarthquakeAlert;
 import com.mycompany.producerservice.kafka.alert.event.WeatherAlert;
+import com.mycompany.producerservice.rest.alert.dto.CreateEarthquakeAlertRequest;
+import com.mycompany.producerservice.rest.alert.dto.CreateWeatherAlertRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

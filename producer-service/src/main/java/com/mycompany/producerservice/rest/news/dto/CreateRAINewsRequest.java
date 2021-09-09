@@ -1,4 +1,4 @@
-package com.mycompany.producerservice.rest.news;
+package com.mycompany.producerservice.rest.news.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
