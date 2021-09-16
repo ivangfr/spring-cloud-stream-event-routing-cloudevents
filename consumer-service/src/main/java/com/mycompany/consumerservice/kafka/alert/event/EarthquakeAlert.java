@@ -10,6 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EarthquakeAlert implements AlertEvent {
+
     private String id;
     private Double richterScale;
     private Double epicenterLat;

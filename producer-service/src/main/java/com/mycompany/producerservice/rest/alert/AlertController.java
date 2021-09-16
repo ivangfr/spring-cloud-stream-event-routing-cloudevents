@@ -1,7 +1,6 @@
 package com.mycompany.producerservice.rest.alert;
 
 import com.mycompany.producerservice.kafka.alert.AlertEventProducer;
-import com.mycompany.producerservice.kafka.alert.AlertType;
 import com.mycompany.producerservice.kafka.alert.event.EarthquakeAlert;
 import com.mycompany.producerservice.kafka.alert.event.WeatherAlert;
 import com.mycompany.producerservice.rest.alert.dto.CreateEarthquakeAlertRequest;
@@ -30,7 +29,7 @@ public class AlertController {
     public Mono<EarthquakeAlert> createEarthquakeAlert(@Valid @RequestBody CreateEarthquakeAlertRequest request) {
         EarthquakeAlert earthquakeAlert = EarthquakeAlert.of(
                 getId(), request.getRichterScale(), request.getEpicenterLat(), request.getEpicenterLon());
-        alertEventProducer.send(AlertType.EARTHQUAKE, earthquakeAlert);
+        alertEventProducer.send(earthquakeAlert.getId(), earthquakeAlert);
         return Mono.just(earthquakeAlert);
     }
 
@@ -38,7 +37,7 @@ public class AlertController {
     @PostMapping("/weather")
     public Mono<WeatherAlert> createWeatherAlert(@Valid @RequestBody CreateWeatherAlertRequest request) {
         WeatherAlert weatherAlert = WeatherAlert.of(getId(), request.getMessage());
-        alertEventProducer.send(AlertType.WEATHER, weatherAlert);
+        alertEventProducer.send(weatherAlert.getId(), weatherAlert);
         return Mono.just(weatherAlert);
     }
 

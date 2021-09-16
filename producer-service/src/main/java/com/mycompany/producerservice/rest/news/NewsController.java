@@ -1,6 +1,5 @@
 package com.mycompany.producerservice.rest.news;
 
-import com.mycompany.producerservice.kafka.news.BroadcasterType;
 import com.mycompany.producerservice.kafka.news.NewsEventProducer;
 import com.mycompany.producerservice.kafka.news.event.CNNNewsCreated;
 import com.mycompany.producerservice.kafka.news.event.DWNewsCreated;
@@ -31,7 +30,7 @@ public class NewsController {
     @PostMapping("/cnn")
     public Mono<CNNNewsCreated> createCNNNews(@Valid @RequestBody CreateCNNNewsRequest request) {
         CNNNewsCreated cnnNewsCreated = CNNNewsCreated.of(getId(), request.getTitle());
-        newsEventProducer.send(BroadcasterType.CNN, cnnNewsCreated);
+        newsEventProducer.send(cnnNewsCreated.getId(), cnnNewsCreated);
         return Mono.just(cnnNewsCreated);
     }
 
@@ -39,7 +38,7 @@ public class NewsController {
     @PostMapping("/dw")
     public Mono<DWNewsCreated> createDWNews(@Valid @RequestBody CreateDWNewsRequest request) {
         DWNewsCreated dwNewsCreated = DWNewsCreated.of(getId(), request.getTitel());
-        newsEventProducer.send(BroadcasterType.DW, dwNewsCreated);
+        newsEventProducer.send(dwNewsCreated.getId(), dwNewsCreated);
         return Mono.just(dwNewsCreated);
     }
 
@@ -47,7 +46,7 @@ public class NewsController {
     @PostMapping("rai")
     public Mono<RAINewsCreated> createRAINews(@Valid @RequestBody CreateRAINewsRequest request) {
         RAINewsCreated raiNewsCreated = RAINewsCreated.of(getId(), request.getTitolo());
-        newsEventProducer.send(BroadcasterType.RAI, raiNewsCreated);
+        newsEventProducer.send(raiNewsCreated.getId(), raiNewsCreated);
         return Mono.just(raiNewsCreated);
     }
 

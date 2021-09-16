@@ -32,7 +32,7 @@ class AlertEventProducerTest {
 
             AlertEventProducer alertEventProducer = context.getBean(AlertEventProducer.class);
             EarthquakeAlert earthquakeAlert = EarthquakeAlert.of("id", 2.1, 1.0, -1.0);
-            alertEventProducer.send(AlertType.EARTHQUAKE, earthquakeAlert);
+            alertEventProducer.send(earthquakeAlert.getId(), earthquakeAlert);
 
             ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
             OutputDestination outputDestination = context.getBean(OutputDestination.class);
@@ -46,8 +46,7 @@ class AlertEventProducerTest {
             assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(EarthquakeAlert.class.getName());
             assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
             assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-            assertThat(headers.get(PARTITION_KEY)).isEqualTo("earthquake");
-            assertThat(headers.get(TYPE)).isEqualTo("earthquake");
+            assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
 
             assertThat(payload).isNotNull();
             assertThat(payload.getId()).isEqualTo(earthquakeAlert.getId());
@@ -67,7 +66,7 @@ class AlertEventProducerTest {
 
             AlertEventProducer alertEventProducer = context.getBean(AlertEventProducer.class);
             WeatherAlert weatherAlert = WeatherAlert.of("id", "message");
-            alertEventProducer.send(AlertType.WEATHER, weatherAlert);
+            alertEventProducer.send(weatherAlert.getId(), weatherAlert);
 
             ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
             OutputDestination outputDestination = context.getBean(OutputDestination.class);
@@ -81,8 +80,7 @@ class AlertEventProducerTest {
             assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(WeatherAlert.class.getName());
             assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
             assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-            assertThat(headers.get(PARTITION_KEY)).isEqualTo("weather");
-            assertThat(headers.get(TYPE)).isEqualTo("weather");
+            assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
 
             assertThat(payload).isNotNull();
             assertThat(payload.getId()).isEqualTo(weatherAlert.getId());
@@ -102,5 +100,4 @@ class AlertEventProducerTest {
     private static final String VERSION_1_0 = "1.0";
     private static final URI SOURCE_URI = URI.create("https://spring.io/");
     private static final String PARTITION_KEY = "partitionKey";
-    private static final String TYPE = "type";
 }

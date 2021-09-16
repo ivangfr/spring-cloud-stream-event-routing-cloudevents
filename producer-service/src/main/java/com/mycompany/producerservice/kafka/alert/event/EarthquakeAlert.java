@@ -4,6 +4,7 @@ import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class EarthquakeAlert implements AlertEvent {
+
     String id;
     Double richterScale;
     Double epicenterLat;

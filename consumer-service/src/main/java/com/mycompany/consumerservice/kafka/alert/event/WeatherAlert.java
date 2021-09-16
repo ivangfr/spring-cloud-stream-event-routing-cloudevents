@@ -10,6 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WeatherAlert implements AlertEvent {
+
     private String id;
     private String message;
 }

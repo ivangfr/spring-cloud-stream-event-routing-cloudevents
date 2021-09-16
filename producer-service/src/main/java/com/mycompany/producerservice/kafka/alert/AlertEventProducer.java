@@ -19,10 +19,9 @@ public class AlertEventProducer {
 
     private final StreamBridge streamBridge;
 
-    public Message<AlertEvent> send(AlertType alertType, AlertEvent alertEvent) {
+    public Message<AlertEvent> send(String key, AlertEvent alertEvent) {
         Message<AlertEvent> message = CloudEventMessageBuilder.withData(alertEvent)
-                .setHeader("partitionKey", alertType.getType())
-                .setHeader("type", alertType.getType())
+                .setHeader("partitionKey", key)
                 .build();
 
         streamBridge.send("alert-out-0", message);

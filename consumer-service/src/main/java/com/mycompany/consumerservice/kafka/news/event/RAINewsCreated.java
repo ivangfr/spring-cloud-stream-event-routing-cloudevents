@@ -10,6 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RAINewsCreated implements NewsEvent {
+
     private String id;
     private String titolo;
 }

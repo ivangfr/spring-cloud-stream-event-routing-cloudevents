@@ -10,6 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CNNNewsCreated implements NewsEvent {
+
     private String id;
     private String title;
 }

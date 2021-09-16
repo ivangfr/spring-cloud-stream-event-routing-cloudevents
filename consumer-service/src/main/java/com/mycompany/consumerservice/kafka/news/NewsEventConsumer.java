@@ -15,19 +15,19 @@ import java.util.function.Consumer;
 public class NewsEventConsumer {
 
     @Bean
-    public Consumer<Message<CNNNewsCreated>> cnn() {
+    public Consumer<Message<CNNNewsCreated>> cnnNewsCreated() {
         return message -> log.info(
                 LOG_TEMPLATE, "Received news created message from CNN!", message.getHeaders(), message.getPayload());
     }
 
     @Bean
-    public Consumer<Message<DWNewsCreated>> dw() {
+    public Consumer<Message<DWNewsCreated>> dwNewsCreated() {
         return message -> log.info(
                 LOG_TEMPLATE, "Erhaltene Nachrichten erstellte Nachricht von DW!", message.getHeaders(), message.getPayload());
     }
 
     @Bean
-    public Consumer<Message<RAINewsCreated>> rai() {
+    public Consumer<Message<RAINewsCreated>> raiNewsCreated() {
         return message -> log.info(
                 LOG_TEMPLATE, "Ricevuta notizia creata messaggio da RAI!", message.getHeaders(), message.getPayload());
     }

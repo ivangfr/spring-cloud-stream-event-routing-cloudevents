@@ -27,12 +27,12 @@ class NewsEventConsumerTest {
     private InputDestination inputDestination;
 
     @Test
-    void testCNN(CapturedOutput output) {
+    void testCNNNewsCreated(CapturedOutput output) {
         NewsEvent newsEvent = new CNNNewsCreated("id", "title");
         Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
                 .withData(newsEvent)
-                .setHeader(PARTITION_KEY, "cnn")
-                .setHeader(TYPE, "cnn")
+                .setType("com.mycompany.producerservice.kafka.news.event.CNNNewsCreated")
+                .setHeader(PARTITION_KEY, "id")
                 .build();
 
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
@@ -42,12 +42,12 @@ class NewsEventConsumerTest {
     }
 
     @Test
-    void testDW(CapturedOutput output) {
+    void testDWNewsCreated(CapturedOutput output) {
         NewsEvent newsEvent = new DWNewsCreated("id", "titel");
         Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
                 .withData(newsEvent)
-                .setHeader(PARTITION_KEY, "dw")
-                .setHeader(TYPE, "dw")
+                .setType("com.mycompany.producerservice.kafka.news.event.DWNewsCreated")
+                .setHeader(PARTITION_KEY, "id")
                 .build();
 
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
@@ -57,12 +57,12 @@ class NewsEventConsumerTest {
     }
 
     @Test
-    void testRAI(CapturedOutput output) {
+    void testRAINewsCreated(CapturedOutput output) {
         NewsEvent newsEvent = new RAINewsCreated("id", "titolo");
         Message<NewsEvent> newsEventMessage = CloudEventMessageBuilder
                 .withData(newsEvent)
-                .setHeader(PARTITION_KEY, "rai")
-                .setHeader(TYPE, "rai")
+                .setType("com.mycompany.producerservice.kafka.news.event.RAINewsCreated")
+                .setHeader(PARTITION_KEY, "id")
                 .build();
 
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
@@ -73,5 +73,4 @@ class NewsEventConsumerTest {
 
     private static final String DESTINATION_NAME = "news.events";
     private static final String PARTITION_KEY = "partitionKey";
-    private static final String TYPE = "type";
 }

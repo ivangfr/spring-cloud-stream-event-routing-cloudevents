@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AlertEventConsumerTest {
 
     @Test
-    void testEarthquake(CapturedOutput output) {
+    void testEarthquakeAlert(CapturedOutput output) {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
                 TestChannelBinderConfiguration.getCompleteConfiguration(
                         ConsumerServiceApplication.class))
@@ -32,8 +32,8 @@ class AlertEventConsumerTest {
             AlertEvent alertEvent = new EarthquakeAlert("id", 2.1, 1.0, -1.0);
             Message<AlertEvent> alertEventMessage = CloudEventMessageBuilder
                     .withData(alertEvent)
-                    .setHeader(PARTITION_KEY, "earthquake")
-                    .setHeader(TYPE, "earthquake")
+                    .setType("com.mycompany.producerservice.kafka.alert.event.EarthquakeAlert")
+                    .setHeader(PARTITION_KEY, "id")
                     .build();
 
             InputDestination inputDestination = context.getBean(InputDestination.class);
@@ -45,7 +45,7 @@ class AlertEventConsumerTest {
     }
 
     @Test
-    void testWeather(CapturedOutput output) {
+    void testWeatherAlert(CapturedOutput output) {
         try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
                 TestChannelBinderConfiguration.getCompleteConfiguration(
                         ConsumerServiceApplication.class))
@@ -55,8 +55,8 @@ class AlertEventConsumerTest {
             AlertEvent alertEvent = new WeatherAlert("id", "message");
             Message<AlertEvent> alertEventMessage = CloudEventMessageBuilder
                     .withData(alertEvent)
-                    .setHeader(PARTITION_KEY, "weather")
-                    .setHeader(TYPE, "weather")
+                    .setType("com.mycompany.producerservice.kafka.alert.event.WeatherAlert")
+                    .setHeader(PARTITION_KEY, "id")
                     .build();
 
             InputDestination inputDestination = context.getBean(InputDestination.class);
@@ -69,5 +69,4 @@ class AlertEventConsumerTest {
 
     private static final String DESTINATION_NAME = "alert.events";
     private static final String PARTITION_KEY = "partitionKey";
-    private static final String TYPE = "type";
 }

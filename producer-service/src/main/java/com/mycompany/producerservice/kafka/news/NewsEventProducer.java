@@ -19,10 +19,9 @@ public class NewsEventProducer {
 
     private final StreamBridge streamBridge;
 
-    public Message<NewsEvent> send(BroadcasterType broadcasterType, NewsEvent newsEvent) {
+    public Message<NewsEvent> send(String key, NewsEvent newsEvent) {
         Message<NewsEvent> message = CloudEventMessageBuilder.withData(newsEvent)
-                .setHeader("partitionKey", broadcasterType.getType())
-                .setHeader("type", broadcasterType.getType())
+                .setHeader("partitionKey", key)
                 .build();
 
         streamBridge.send("news-out-0", message);

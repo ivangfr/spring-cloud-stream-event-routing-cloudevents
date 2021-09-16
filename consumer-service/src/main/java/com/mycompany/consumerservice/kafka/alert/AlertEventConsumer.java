@@ -14,13 +14,13 @@ import java.util.function.Consumer;
 public class AlertEventConsumer {
 
     @Bean
-    public Consumer<Message<EarthquakeAlert>> earthquake() {
+    public Consumer<Message<EarthquakeAlert>> earthquakeAlert() {
         return message -> log.info(
                 LOG_TEMPLATE, "Received Earthquake alert!", message.getHeaders(), message.getPayload());
     }
 
     @Bean
-    public Consumer<Message<WeatherAlert>> weather() {
+    public Consumer<Message<WeatherAlert>> weatherAlert() {
         return message -> log.info(
                 LOG_TEMPLATE, "Received Weather alert!", message.getHeaders(), message.getPayload());
     }

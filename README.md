@@ -112,14 +112,14 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
 
 ## Playing around
 
-Submit the following POST requests to `producer-service` and check the logs in `consumer-service`
+In a terminal, submit the following POST requests to `producer-service` and check its logs and `consumer-service` logs
 
 > **Note:** [HTTPie](https://httpie.org/) is being used in the calls bellow
 
 - **news**
   ```
-  http :9080/api/news/dw titel="Berliner Untergrundstreik"
   http :9080/api/news/cnn title="NYC subway strike"
+  http :9080/api/news/dw titel="Berliner Untergrundstreik"
   http :9080/api/news/rai titolo="Sciopero della metropolitana di Roma"
   ```
 

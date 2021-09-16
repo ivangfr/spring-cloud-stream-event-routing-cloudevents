@@ -4,6 +4,7 @@ import lombok.Value;
 
 @Value(staticConstructor = "of")
 public class WeatherAlert implements AlertEvent {
+
     String id;
     String message;
 }
