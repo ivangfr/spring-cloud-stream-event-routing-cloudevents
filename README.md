@@ -34,7 +34,7 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
   docker-compose up -d
   ```
 
-- Wait until all containers are `running (healthy)`. You can check their status by running
+- Wait for containers to be with status `running (healthy)`. To check it, run
   ```
   docker-compose ps
   ```
@@ -166,131 +166,175 @@ docker rmi ivanfranchin/consumer-service:1.0.0
 
 ## Issues
 
-When submitting, to `producer-service`, an invalid event according to `javax.validation.constraints`, like the field `titolo` in `CreateRAINewsRequest` must not be blank, for instance
+When running the Docker native container of `producer-service` and submitting an invalid event according to `javax.validation.constraints`, like the field `titolo` in `CreateRAINewsRequest` must not be blank, for instance
 ```
-$ http :9080/api/news/rai title="Sciopero della metropolitana di Roma"
+http :9080/api/news/rai titolo2="Sciopero della metropolitana di Roma"
 ```
-the following exception is thrown
+the response is
 ```
-ERROR 1 --- [ctor-http-nio-2] o.s.w.s.adapter.HttpWebHandlerAdapter    : [30b7f679-5] 500 Server Error for HTTP POST "/api/news/rai"
+HTTP/1.1 500 Internal Server Error
+```
+and the following exception is logged
+```
+ERROR 1 --- [ctor-http-nio-4] o.s.w.s.adapter.HttpWebHandlerAdapter    : [af88ec86-3] 500 Server Error for HTTP POST "/api/news/rai"
 
 org.springframework.core.codec.CodecException: Type definition error: [simple type, class org.springframework.validation.beanvalidation.SpringValidatorAdapter$ViolationFieldError]; nested exception is com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.springframework.validation.beanvalidation.SpringValidatorAdapter$ViolationFieldError and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: java.util.LinkedHashMap["errors"]->java.util.Collections$UnmodifiableRandomAccessList[0])
-    at org.springframework.http.codec.json.AbstractJackson2Encoder.encodeValue(AbstractJackson2Encoder.java:226) ~[na:na]
-    at org.springframework.http.codec.json.AbstractJackson2Encoder.lambda$encode$0(AbstractJackson2Encoder.java:150) ~[na:na]
-    at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:113) ~[na:na]
-    at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2398) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.request(FluxMapFuseable.java:169) ~[na:na]
-    at reactor.core.publisher.MonoSingle$SingleSubscriber.doOnRequest(MonoSingle.java:103) ~[na:na]
-    at reactor.core.publisher.Operators$MonoInnerProducerBase.request(Operators.java:2731) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2194) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2068) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoSingle$SingleSubscriber.onSubscribe(MonoSingle.java:115) ~[na:na]
-    at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onSubscribe(FluxMapFuseable.java:96) ~[na:na]
-    at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[na:na]
-    at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:64) ~[na:na]
-    at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:157) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxPeekFuseable$PeekFuseableSubscriber.onNext(FluxPeekFuseable.java:210) ~[na:na]
-    at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:151) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[na:na]
-    at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxConcatArray$ConcatArraySubscriber.onNext(FluxConcatArray.java:201) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2398) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxConcatArray$ConcatArraySubscriber.onSubscribe(FluxConcatArray.java:193) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[na:na]
-    at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:52) ~[na:na]
-    at reactor.core.publisher.Mono.subscribe(Mono.java:4338) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxConcatArray$ConcatArraySubscriber.onComplete(FluxConcatArray.java:255) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxConcatArray.subscribe(FluxConcatArray.java:78) ~[na:na]
-    at reactor.core.publisher.Mono.subscribe(Mono.java:4338) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103) ~[na:na]
-    at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:106) ~[na:na]
-    at reactor.core.publisher.FluxOnAssembly$OnAssemblySubscriber.onError(FluxOnAssembly.java:393) ~[na:na]
-    at reactor.core.publisher.Operators.error(Operators.java:198) ~[na:na]
-    at reactor.core.publisher.MonoError.subscribe(MonoError.java:53) ~[na:na]
-    at reactor.core.publisher.Mono.subscribe(Mono.java:4338) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103) ~[na:na]
-    at reactor.core.publisher.FluxOnAssembly$OnAssemblySubscriber.onError(FluxOnAssembly.java:393) ~[na:na]
-    at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
-    at reactor.core.publisher.FluxDoOnEach$DoOnEachSubscriber.onError(FluxDoOnEach.java:195) ~[na:na]
-    at reactor.core.publisher.MonoFlatMap$FlatMapMain.onError(MonoFlatMap.java:172) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoFlatMap$FlatMapMain.secondError(MonoFlatMap.java:192) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoFlatMap$FlatMapInner.onError(MonoFlatMap.java:259) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:106) ~[na:na]
-    at reactor.core.publisher.Operators.error(Operators.java:198) ~[na:na]
-    at reactor.core.publisher.MonoError.subscribe(MonoError.java:53) ~[na:na]
-    at reactor.core.publisher.Mono.subscribe(Mono.java:4338) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103) ~[na:na]
-    at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
-    at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
-    at reactor.core.publisher.MonoIgnoreThen$ThenIgnoreMain.onError(MonoIgnoreThen.java:270) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoFlatMap$FlatMapMain.onError(MonoFlatMap.java:172) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoZip$ZipInner.onError(MonoZip.java:350) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onError(MonoPeekTerminal.java:258) ~[na:na]
-    at reactor.core.publisher.Operators$MonoSubscriber.onError(Operators.java:1863) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
-    at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:194) ~[na:na]
-    at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[na:na]
-    at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79) ~[na:na]
-    at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:151) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107) ~[na:na]
-    at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onNext(FluxMapFuseable.java:295) ~[na:na]
-    at reactor.core.publisher.FluxFilterFuseable$FilterFuseableConditionalSubscriber.onNext(FluxFilterFuseable.java:337) ~[na:na]
-    at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.9]
-    at reactor.core.publisher.MonoCollect$CollectSubscriber.onComplete(MonoCollect.java:159) ~[na:na]
-    at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:142) ~[na:na]
-    at reactor.core.publisher.FluxPeek$PeekSubscriber.onComplete(FluxPeek.java:260) ~[na:na]
-    at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:142) ~[na:na]
-    at reactor.netty.channel.FluxReceive.onInboundComplete(FluxReceive.java:400) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.10]
-    at reactor.netty.channel.ChannelOperations.onInboundComplete(ChannelOperations.java:419) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.10]
-    at reactor.netty.http.server.HttpServerOperations.onInboundNext(HttpServerOperations.java:547) ~[na:na]
-    at reactor.netty.channel.ChannelOperationsHandler.channelRead(ChannelOperationsHandler.java:93) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
-    at reactor.netty.http.server.HttpTrafficHandler.channelRead(HttpTrafficHandler.java:252) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
-    at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436) ~[na:na]
-    at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:324) ~[na:na]
-    at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:296) ~[na:na]
-    at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
-    at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
-    at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
-    at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919) ~[na:na]
-    at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166) ~[na:na]
-    at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:719) ~[na:na]
-    at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:655) ~[na:na]
-    at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:581) ~[na:na]
-    at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493) ~[na:na]
-    at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:986) ~[na:na]
-    at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[na:na]
-    at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[na:na]
-    at java.lang.Thread.run(Thread.java:829) ~[na:na]
-    at com.oracle.svm.core.thread.JavaThreads.threadStartRoutine(JavaThreads.java:567) ~[na:na]
-    at com.oracle.svm.core.posix.thread.PosixJavaThreads.pthreadStartRoutine(PosixJavaThreads.java:192) ~[na:na]
+	at org.springframework.http.codec.json.AbstractJackson2Encoder.encodeValue(AbstractJackson2Encoder.java:226) ~[na:na]
+	at org.springframework.http.codec.json.AbstractJackson2Encoder.lambda$encode$0(AbstractJackson2Encoder.java:150) ~[na:na]
+	at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onNext(FluxMapFuseable.java:113) ~[na:na]
+	at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2398) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.request(FluxMapFuseable.java:169) ~[na:na]
+	at reactor.core.publisher.MonoSingle$SingleSubscriber.doOnRequest(MonoSingle.java:103) ~[na:na]
+	at reactor.core.publisher.Operators$MonoInnerProducerBase.request(Operators.java:2731) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.set(Operators.java:2194) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.Operators$MultiSubscriptionSubscriber.onSubscribe(Operators.java:2068) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoSingle$SingleSubscriber.onSubscribe(MonoSingle.java:115) ~[na:na]
+	at reactor.core.publisher.FluxMapFuseable$MapFuseableSubscriber.onSubscribe(FluxMapFuseable.java:96) ~[na:na]
+	at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[na:na]
+	at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:64) ~[na:na]
+	at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:157) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxPeekFuseable$PeekFuseableSubscriber.onNext(FluxPeekFuseable.java:210) ~[na:na]
+	at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:151) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[na:na]
+	at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxConcatArray$ConcatArraySubscriber.onNext(FluxConcatArray.java:201) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2398) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxConcatArray$ConcatArraySubscriber.onSubscribe(FluxConcatArray.java:193) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoJust.subscribe(MonoJust.java:55) ~[na:na]
+	at reactor.core.publisher.MonoDefer.subscribe(MonoDefer.java:52) ~[na:na]
+	at reactor.core.publisher.Mono.subscribe(Mono.java:4361) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxConcatArray$ConcatArraySubscriber.onComplete(FluxConcatArray.java:255) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxConcatArray.subscribe(FluxConcatArray.java:78) ~[na:na]
+	at reactor.core.publisher.Mono.subscribe(Mono.java:4361) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103) ~[na:na]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:106) ~[na:na]
+	at reactor.core.publisher.FluxOnAssembly$OnAssemblySubscriber.onError(FluxOnAssembly.java:393) ~[na:na]
+	at reactor.core.publisher.Operators.error(Operators.java:198) ~[na:na]
+	at reactor.core.publisher.MonoError.subscribe(MonoError.java:53) ~[na:na]
+	at reactor.core.publisher.Mono.subscribe(Mono.java:4361) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103) ~[na:na]
+	at reactor.core.publisher.FluxOnAssembly$OnAssemblySubscriber.onError(FluxOnAssembly.java:393) ~[na:na]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
+	at reactor.core.publisher.FluxDoOnEach$DoOnEachSubscriber.onError(FluxDoOnEach.java:195) ~[na:na]
+	at reactor.core.publisher.MonoFlatMap$FlatMapMain.onError(MonoFlatMap.java:172) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoFlatMap$FlatMapMain.secondError(MonoFlatMap.java:192) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoFlatMap$FlatMapInner.onError(MonoFlatMap.java:259) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:106) ~[na:na]
+	at reactor.core.publisher.Operators.error(Operators.java:198) ~[na:na]
+	at reactor.core.publisher.MonoError.subscribe(MonoError.java:53) ~[na:na]
+	at reactor.core.publisher.Mono.subscribe(Mono.java:4361) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103) ~[na:na]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
+	at reactor.core.publisher.MonoIgnoreThen$ThenIgnoreMain.onError(MonoIgnoreThen.java:270) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoFlatMap$FlatMapMain.onError(MonoFlatMap.java:172) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoZip$ZipInner.onError(MonoZip.java:350) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onError(MonoPeekTerminal.java:258) ~[na:na]
+	at reactor.core.publisher.Operators$MonoSubscriber.onError(Operators.java:1863) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222) ~[na:na]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:194) ~[na:na]
+	at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[na:na]
+	at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79) ~[na:na]
+	at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:151) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107) ~[na:na]
+	at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onNext(FluxMapFuseable.java:295) ~[na:na]
+	at reactor.core.publisher.FluxFilterFuseable$FilterFuseableConditionalSubscriber.onNext(FluxFilterFuseable.java:337) ~[na:na]
+	at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.10]
+	at reactor.core.publisher.MonoCollect$CollectSubscriber.onComplete(MonoCollect.java:159) ~[na:na]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:142) ~[na:na]
+	at reactor.core.publisher.FluxPeek$PeekSubscriber.onComplete(FluxPeek.java:260) ~[na:na]
+	at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:142) ~[na:na]
+	at reactor.netty.channel.FluxReceive.onInboundComplete(FluxReceive.java:400) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.11]
+	at reactor.netty.channel.ChannelOperations.onInboundComplete(ChannelOperations.java:419) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.11]
+	at reactor.netty.http.server.HttpServerOperations.onInboundNext(HttpServerOperations.java:575) ~[na:na]
+	at reactor.netty.channel.ChannelOperationsHandler.channelRead(ChannelOperationsHandler.java:93) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
+	at reactor.netty.http.server.HttpTrafficHandler.channelRead(HttpTrafficHandler.java:261) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436) ~[na:na]
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:324) ~[na:na]
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:296) ~[na:na]
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919) ~[na:na]
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:719) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:655) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:581) ~[na:na]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493) ~[na:na]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:986) ~[na:na]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[na:na]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[na:na]
+	at java.lang.Thread.run(Thread.java:829) ~[na:na]
+	at com.oracle.svm.core.thread.JavaThreads.threadStartRoutine(JavaThreads.java:567) ~[na:na]
+	at com.oracle.svm.core.posix.thread.PosixJavaThreads.pthreadStartRoutine(PosixJavaThreads.java:192) ~[na:na]
 Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.springframework.validation.beanvalidation.SpringValidatorAdapter$ViolationFieldError and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: java.util.LinkedHashMap["errors"]->java.util.Collections$UnmodifiableRandomAccessList[0])
-    at com.fasterxml.jackson.databind.SerializerProvider.reportBadDefinition(SerializerProvider.java:1276) ~[na:na]
-    at com.fasterxml.jackson.databind.DatabindContext.reportBadDefinition(DatabindContext.java:400) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.impl.UnknownSerializer.failForEmpty(UnknownSerializer.java:71) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.impl.UnknownSerializer.serialize(UnknownSerializer.java:33) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serializeContents(IndexedListSerializer.java:119) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serialize(IndexedListSerializer.java:79) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serialize(IndexedListSerializer.java:18) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:808) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480) ~[na:na]
-    at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:400) ~[na:na]
-    at com.fasterxml.jackson.databind.ObjectWriter$Prefetch.serialize(ObjectWriter.java:1510) ~[na:na]
-    at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1006) ~[na:na]
-    at org.springframework.http.codec.json.AbstractJackson2Encoder.encodeValue(AbstractJackson2Encoder.java:222) ~[na:na]
-    ... 99 common frames omitted
+	at com.fasterxml.jackson.databind.SerializerProvider.reportBadDefinition(SerializerProvider.java:1276) ~[na:na]
+	at com.fasterxml.jackson.databind.DatabindContext.reportBadDefinition(DatabindContext.java:400) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.impl.UnknownSerializer.failForEmpty(UnknownSerializer.java:71) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.impl.UnknownSerializer.serialize(UnknownSerializer.java:33) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serializeContents(IndexedListSerializer.java:119) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serialize(IndexedListSerializer.java:79) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer.serialize(IndexedListSerializer.java:18) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:808) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480) ~[na:na]
+	at com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:400) ~[na:na]
+	at com.fasterxml.jackson.databind.ObjectWriter$Prefetch.serialize(ObjectWriter.java:1510) ~[na:na]
+	at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1006) ~[na:na]
+	at org.springframework.http.codec.json.AbstractJackson2Encoder.encodeValue(AbstractJackson2Encoder.java:222) ~[na:na]
+	... 99 common frames omitted
+```
+The expected response should be the following (as it happens with Docker JVM)
+```
+HTTP/1.1 400 Bad Request
+{
+    "error": "Bad Request",
+    "errors": [
+        {
+            "arguments": [
+                {
+                    "arguments": null,
+                    "code": "titolo",
+                    "codes": [
+                        "createRAINewsRequest.titolo",
+                        "titolo"
+                    ],
+                    "defaultMessage": "titolo"
+                }
+            ],
+            "bindingFailure": false,
+            "code": "NotBlank",
+            "codes": [
+                "NotBlank.createRAINewsRequest.titolo",
+                "NotBlank.titolo",
+                "NotBlank.java.lang.String",
+                "NotBlank"
+            ],
+            "defaultMessage": "must not be blank",
+            "field": "titolo",
+            "objectName": "createRAINewsRequest",
+            "rejectedValue": null
+        }
+    ],
+    "exception": "org.springframework.web.bind.support.WebExchangeBindException",
+    "message": "Validation failed for argument at index 0 in method: public reactor.core.publisher.Mono<com.mycompany.producerservice.kafka.news.event.RAINewsCreated> com.mycompany.producerservice.rest.news.NewsController.createRAINews(com.mycompany.producerservice.rest.news.dto.CreateRAINewsRequest), with 1 error(s): [Field error in object 'createRAINewsRequest' on field 'titolo': rejected value [null]; codes [NotBlank.createRAINewsRequest.titolo,NotBlank.titolo,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [createRAINewsRequest.titolo,titolo]; arguments []; default message [titolo]]; default message [must not be blank]] ",
+    "path": "/api/news/rai",
+    "requestId": "af28deb4-1",
+    "status": 400,
+    "timestamp": "..."
+}
 ```
