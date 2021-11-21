@@ -7,13 +7,19 @@ import com.mycompany.producerservice.kafka.news.event.DWNewsCreated;
 import com.mycompany.producerservice.kafka.news.event.RAINewsCreated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.integration.support.management.micrometer.MicrometerMetricsCaptorConfiguration;
+import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 
-@TypeHint(
-        types = {
-                EarthquakeAlert.class, WeatherAlert.class,
-                CNNNewsCreated.class, DWNewsCreated.class, RAINewsCreated.class
-        })
+@NativeHint(
+        types = @TypeHint(
+                types = {
+                        EarthquakeAlert.class, WeatherAlert.class,
+                        CNNNewsCreated.class, DWNewsCreated.class, RAINewsCreated.class,
+                        MicrometerMetricsCaptorConfiguration.class
+                }
+        )
+)
 @SpringBootApplication
 public class ProducerServiceApplication {
 

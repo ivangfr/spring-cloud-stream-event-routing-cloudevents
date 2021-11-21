@@ -7,16 +7,22 @@ import com.mycompany.consumerservice.kafka.news.event.DWNewsCreated;
 import com.mycompany.consumerservice.kafka.news.event.RAINewsCreated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.integration.support.management.micrometer.MicrometerMetricsCaptorConfiguration;
+import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 
 import java.net.URI;
 
-@TypeHint(
-        types = {
-                EarthquakeAlert.class, WeatherAlert.class,
-                CNNNewsCreated.class, DWNewsCreated.class, RAINewsCreated.class,
-                URI.class
-        })
+@NativeHint(
+        types = @TypeHint(
+                types = {
+                        EarthquakeAlert.class, WeatherAlert.class,
+                        CNNNewsCreated.class, DWNewsCreated.class, RAINewsCreated.class,
+                        URI.class,
+                        MicrometerMetricsCaptorConfiguration.class
+                }
+        )
+)
 @SpringBootApplication
 public class ConsumerServiceApplication {
 
