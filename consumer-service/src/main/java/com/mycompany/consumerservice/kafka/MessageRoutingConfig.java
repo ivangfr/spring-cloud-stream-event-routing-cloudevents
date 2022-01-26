@@ -26,10 +26,14 @@ public class MessageRoutingConfig {
 
     @Bean
     public MessageRoutingCallback messageRoutingCallback() {
-        return message -> {
-            String cloudEventType = (String) message.getHeaders().get("ce-type");
-            String routing = routingMap.get(cloudEventType);
-            return routing == null ? "unknownEvent" : routing;
+        return new MessageRoutingCallback() {
+            @Override
+            public FunctionRoutingResult routingResult(Message<?> message) {
+                String cloudEventType = (String) message.getHeaders().get("ce-type");
+                String routing = routingMap.get(cloudEventType);
+                String functionDefinition = routing == null ? "unknownEvent" : routing;
+                return new FunctionRoutingResult(functionDefinition);
+            }
         };
     }
 
