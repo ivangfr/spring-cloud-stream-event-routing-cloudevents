@@ -10,11 +10,11 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
 
   Endpoints
   ```
-  POST /api/news/cnn {"title": "..."}
-  POST /api/news/dw {"titel": "..."}
-  POST /api/news/rai {"titolo": "..."}
-  POST /api/alerts/earthquake {"richterScale": "...", "epicenterLat": "...", "epicenterLon": "..."}
-  POST /api/alerts/weather {"message": "..."}
+  POST /api/news/cnn {"title":"..."}
+  POST /api/news/dw {"titel":"..."}
+  POST /api/news/rai {"titolo":"..."}
+  POST /api/alerts/earthquake {"richterScale":"...", "epicenterLat":"...", "epicenterLon":"..."}
+  POST /api/alerts/weather {"message":"..."}
   ```
 
 - ### consumer-service
@@ -169,7 +169,7 @@ To remove the Docker images created by this project, go to a terminal and inside
 
 - `producer-service` Docker native image is built successfully. However, the following exception is thrown when a `news` or an `alert` is submitted
   ```
-  ERROR 1 --- [ctor-http-nio-3] a.w.r.e.AbstractErrorWebExceptionHandler : [7f7c07d9-3]  500 Server Error for HTTP POST "/api/alerts/weather"
+  ERROR 1 --- [ctor-http-nio-2] a.w.r.e.AbstractErrorWebExceptionHandler : [b15d7b6c-1]  500 Server Error for HTTP POST "/api/alerts/weather"
   
   java.lang.IllegalArgumentException: Attribute 'value' not found in attributes for annotation [org.springframework.context.annotation.Role]
   	at org.springframework.util.Assert.notNull(Assert.java:219) ~[na:na]
@@ -202,33 +202,33 @@ To remove the Docker images created by this project, go to a terminal and inside
   		at com.mycompany.producerservice.rest.alert.AlertController.createWeatherAlert(AlertController.java:40) ~[com.mycompany.producerservice.ProducerServiceApplication:na]
   		at java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
   		at org.springframework.web.reactive.result.method.InvocableHandlerMethod.lambda$invoke$0(InvocableHandlerMethod.java:144) ~[na:na]
-  		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:125) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
-  		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
-  		at reactor.core.publisher.MonoZip$ZipCoordinator.signal(MonoZip.java:251) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
-  		at reactor.core.publisher.MonoZip$ZipInner.onNext(MonoZip.java:336) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
+  		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:125) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
+  		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
+  		at reactor.core.publisher.MonoZip$ZipCoordinator.signal(MonoZip.java:251) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
+  		at reactor.core.publisher.MonoZip$ZipInner.onNext(MonoZip.java:336) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
   		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180) ~[na:na]
   		at reactor.core.publisher.FluxDefaultIfEmpty$DefaultIfEmptySubscriber.onNext(FluxDefaultIfEmpty.java:101) ~[na:na]
   		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200) ~[na:na]
   		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74) ~[na:na]
   		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79) ~[na:na]
-  		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
-  		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:151) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
+  		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
+  		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:151) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
   		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107) ~[na:na]
   		at reactor.core.publisher.FluxMapFuseable$MapFuseableConditionalSubscriber.onNext(FluxMapFuseable.java:295) ~[na:na]
   		at reactor.core.publisher.FluxFilterFuseable$FilterFuseableConditionalSubscriber.onNext(FluxFilterFuseable.java:337) ~[na:na]
-  		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.15]
+  		at reactor.core.publisher.Operators$MonoSubscriber.complete(Operators.java:1816) ~[com.mycompany.producerservice.ProducerServiceApplication:3.4.17]
   		at reactor.core.publisher.MonoCollect$CollectSubscriber.onComplete(MonoCollect.java:159) ~[na:na]
   		at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:142) ~[na:na]
   		at reactor.core.publisher.FluxPeek$PeekSubscriber.onComplete(FluxPeek.java:260) ~[na:na]
   		at reactor.core.publisher.FluxMap$MapSubscriber.onComplete(FluxMap.java:142) ~[na:na]
-  		at reactor.netty.channel.FluxReceive.onInboundComplete(FluxReceive.java:400) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.16]
-  		at reactor.netty.channel.ChannelOperations.onInboundComplete(ChannelOperations.java:419) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.16]
+  		at reactor.netty.channel.FluxReceive.onInboundComplete(FluxReceive.java:400) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.18]
+  		at reactor.netty.channel.ChannelOperations.onInboundComplete(ChannelOperations.java:419) ~[com.mycompany.producerservice.ProducerServiceApplication:1.0.18]
   		at reactor.netty.http.server.HttpServerOperations.onInboundNext(HttpServerOperations.java:600) ~[na:na]
   		at reactor.netty.channel.ChannelOperationsHandler.channelRead(ChannelOperationsHandler.java:93) ~[na:na]
   		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
   		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
   		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
-  		at reactor.netty.http.server.HttpTrafficHandler.channelRead(HttpTrafficHandler.java:264) ~[na:na]
+  		at reactor.netty.http.server.HttpTrafficHandler.channelRead(HttpTrafficHandler.java:266) ~[na:na]
   		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:379) ~[na:na]
   		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:365) ~[na:na]
   		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:357) ~[na:na]
@@ -270,11 +270,11 @@ To remove the Docker images created by this project, go to a terminal and inside
   	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:935) ~[na:na]
   	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:586) ~[na:na]
   	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:64) ~[na:na]
-  	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:740) ~[com.mycompany.consumerservice.ConsumerServiceApplication:2.6.4]
-  	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:415) ~[com.mycompany.consumerservice.ConsumerServiceApplication:2.6.4]
-  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) ~[com.mycompany.consumerservice.ConsumerServiceApplication:2.6.4]
-  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312) ~[com.mycompany.consumerservice.ConsumerServiceApplication:2.6.4]
-  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301) ~[com.mycompany.consumerservice.ConsumerServiceApplication:2.6.4]
+  	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:740) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
+  	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:415) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
+  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
+  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
+  	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
   	at com.mycompany.consumerservice.ConsumerServiceApplication.main(ConsumerServiceApplication.java:27) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
   Caused by: java.lang.IllegalArgumentException: Attribute 'value' not found in attributes for annotation [org.springframework.context.annotation.Role]
   	at org.springframework.util.Assert.notNull(Assert.java:219) ~[na:na]
@@ -296,7 +296,7 @@ To remove the Docker images created by this project, go to a terminal and inside
   	at org.springframework.cloud.stream.binding.AbstractBindableProxyFactory.createAndBindInputs(AbstractBindableProxyFactory.java:118) ~[na:na]
   	at org.springframework.cloud.stream.binding.InputBindingLifecycle.doStartWithBindable(InputBindingLifecycle.java:58) ~[na:na]
   	at java.util.LinkedHashMap$LinkedValues.forEach(LinkedHashMap.java:608) ~[na:na]
-  	at org.springframework.cloud.stream.binding.AbstractBindingLifecycle.start(AbstractBindingLifecycle.java:57) ~[com.mycompany.consumerservice.ConsumerServiceApplication:3.2.2]
+  	at org.springframework.cloud.stream.binding.AbstractBindingLifecycle.start(AbstractBindingLifecycle.java:57) ~[com.mycompany.consumerservice.ConsumerServiceApplication:na]
   	at org.springframework.cloud.stream.binding.InputBindingLifecycle.start(InputBindingLifecycle.java:34) ~[na:na]
   	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:178) ~[na:na]
   	... 14 common frames omitted
