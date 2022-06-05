@@ -1,6 +1,7 @@
 package com.mycompany.consumerservice.kafka;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.function.cloudevent.CloudEventMessageUtils;
 import org.springframework.cloud.function.context.MessageRoutingCallback;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +30,7 @@ public class MessageRoutingConfig {
         return new MessageRoutingCallback() {
             @Override
             public FunctionRoutingResult routingResult(Message<?> message) {
-                String cloudEventType = (String) message.getHeaders().get("ce-type");
-                String routing = routingMap.get(cloudEventType);
-                String functionDefinition = routing == null ? "unknownEvent" : routing;
+                String functionDefinition = routingMap.getOrDefault(CloudEventMessageUtils.getType(message), "unknownEvent");
                 return new FunctionRoutingResult(functionDefinition);
             }
         };
