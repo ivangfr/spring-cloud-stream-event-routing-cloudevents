@@ -15,7 +15,6 @@ import java.util.function.Consumer;
 @Configuration
 public class MessageRoutingConfig {
 
-
     private static final Logger log = LoggerFactory.getLogger(MessageRoutingConfig.class);
     private static final Map<String, String> routingMap = new HashMap<>();
 
@@ -31,9 +30,8 @@ public class MessageRoutingConfig {
     public MessageRoutingCallback messageRoutingCallback() {
         return new MessageRoutingCallback() {
             @Override
-            public FunctionRoutingResult routingResult(Message<?> message) {
-                String functionDefinition = routingMap.getOrDefault(CloudEventMessageUtils.getType(message), "unknownEvent");
-                return new FunctionRoutingResult(functionDefinition);
+            public String routingResult(Message<?> message) {
+                return routingMap.getOrDefault(CloudEventMessageUtils.getType(message), "unknownEvent");
             }
         };
     }

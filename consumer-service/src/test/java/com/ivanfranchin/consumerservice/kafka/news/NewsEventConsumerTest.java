@@ -38,7 +38,7 @@ class NewsEventConsumerTest {
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Received news created message from CNN!");
-        assertThat(output).contains("PAYLOAD: CNNNewsCreated(id=id, title=title)");
+        assertThat(output).contains("PAYLOAD: CNNNewsCreated[id=id, title=title]");
     }
 
     @Test
@@ -53,7 +53,7 @@ class NewsEventConsumerTest {
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Erhaltene Nachrichten erstellte Nachricht von DW!");
-        assertThat(output).contains("PAYLOAD: DWNewsCreated(id=id, titel=titel)");
+        assertThat(output).contains("PAYLOAD: DWNewsCreated[id=id, titel=titel]");
     }
 
     @Test
@@ -68,7 +68,7 @@ class NewsEventConsumerTest {
         inputDestination.send(newsEventMessage, DESTINATION_NAME);
 
         assertThat(output).contains("Ricevuta notizia creata messaggio da RAI!");
-        assertThat(output).contains("PAYLOAD: RAINewsCreated(id=id, titolo=titolo)");
+        assertThat(output).contains("PAYLOAD: RAINewsCreated[id=id, titolo=titolo]");
     }
 
     private static final String DESTINATION_NAME = "news.events";

@@ -39,16 +39,17 @@ class NewsEventProducerTest {
         newsEventProducer.send(cnnNewsCreated.id(), cnnNewsCreated);
 
         Message<byte[]> outputMessage = outputDestination.receive(0, "news.events");
-        MessageHeaders headers = outputMessage.getHeaders();
-        CNNNewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), CNNNewsCreated.class);
 
-        assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
-        assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
-        assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(CNNNewsCreated.class.getName());
-        assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
+        MessageHeaders headers = outputMessage.getHeaders();
         assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
         assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
 
+        assertThat(CloudEventMessageUtils.getSource(outputMessage)).isEqualTo(SOURCE_URI);
+        assertThat(CloudEventMessageUtils.getSpecVersion(outputMessage)).isEqualTo(VERSION_1_0);
+        assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(CNNNewsCreated.class.getName());
+        assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
+
+        CNNNewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), CNNNewsCreated.class);
         assertThat(payload.id()).isEqualTo(cnnNewsCreated.id());
         assertThat(payload.title()).isEqualTo(cnnNewsCreated.title());
     }
@@ -59,16 +60,17 @@ class NewsEventProducerTest {
         newsEventProducer.send(dwNewsCreated.id(), dwNewsCreated);
 
         Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
-        MessageHeaders headers = outputMessage.getHeaders();
-        DWNewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), DWNewsCreated.class);
 
-        assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
-        assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
-        assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(DWNewsCreated.class.getName());
-        assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
+        MessageHeaders headers = outputMessage.getHeaders();
         assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
         assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
 
+        assertThat(CloudEventMessageUtils.getSource(outputMessage)).isEqualTo(SOURCE_URI);
+        assertThat(CloudEventMessageUtils.getSpecVersion(outputMessage)).isEqualTo(VERSION_1_0);
+        assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(DWNewsCreated.class.getName());
+        assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
+
+        DWNewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), DWNewsCreated.class);
         assertThat(payload.id()).isEqualTo(dwNewsCreated.id());
         assertThat(payload.titel()).isEqualTo(dwNewsCreated.titel());
     }
@@ -79,16 +81,17 @@ class NewsEventProducerTest {
         newsEventProducer.send(raiNewsCreated.id(), raiNewsCreated);
 
         Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
-        MessageHeaders headers = outputMessage.getHeaders();
-        RAINewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), RAINewsCreated.class);
 
-        assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
-        assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
-        assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(RAINewsCreated.class.getName());
-        assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
+        MessageHeaders headers = outputMessage.getHeaders();
         assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
         assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
 
+        assertThat(CloudEventMessageUtils.getSource(outputMessage)).isEqualTo(SOURCE_URI);
+        assertThat(CloudEventMessageUtils.getSpecVersion(outputMessage)).isEqualTo(VERSION_1_0);
+        assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(RAINewsCreated.class.getName());
+        assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
+
+        RAINewsCreated payload = objectMapper.readValue(outputMessage.getPayload(), RAINewsCreated.class);
         assertThat(payload.id()).isEqualTo(raiNewsCreated.id());
         assertThat(payload.titolo()).isEqualTo(raiNewsCreated.titolo());
     }

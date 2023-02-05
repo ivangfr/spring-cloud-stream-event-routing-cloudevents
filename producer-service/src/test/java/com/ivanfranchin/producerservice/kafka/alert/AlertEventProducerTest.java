@@ -38,16 +38,17 @@ class AlertEventProducerTest {
             OutputDestination outputDestination = context.getBean(OutputDestination.class);
 
             Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
+
             MessageHeaders headers = outputMessage.getHeaders();
-            EarthquakeAlert payload = deserialize(objectMapper, outputMessage.getPayload(), EarthquakeAlert.class);
-
-            assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
-            assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
-            assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(EarthquakeAlert.class.getName());
-            assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
-            assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
             assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
+            assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
 
+            assertThat(CloudEventMessageUtils.getSource(outputMessage)).isEqualTo(SOURCE_URI);
+            assertThat(CloudEventMessageUtils.getSpecVersion(outputMessage)).isEqualTo(VERSION_1_0);
+            assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(EarthquakeAlert.class.getName());
+            assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
+
+            EarthquakeAlert payload = deserialize(objectMapper, outputMessage.getPayload(), EarthquakeAlert.class);
             assertThat(payload).isNotNull();
             assertThat(payload.id()).isEqualTo(earthquakeAlert.id());
             assertThat(payload.richterScale()).isEqualTo(earthquakeAlert.richterScale());
@@ -72,16 +73,17 @@ class AlertEventProducerTest {
             OutputDestination outputDestination = context.getBean(OutputDestination.class);
 
             Message<byte[]> outputMessage = outputDestination.receive(0, BINDING_NAME);
-            MessageHeaders headers = outputMessage.getHeaders();
-            WeatherAlert payload = deserialize(objectMapper, outputMessage.getPayload(), WeatherAlert.class);
 
-            assertThat(headers.get(CloudEventMessageUtils.SOURCE)).isEqualTo(SOURCE_URI);
-            assertThat(headers.get(CloudEventMessageUtils.SPECVERSION)).isEqualTo(VERSION_1_0);
-            assertThat(headers.get(CloudEventMessageUtils.TYPE)).isEqualTo(WeatherAlert.class.getName());
-            assertThat(headers.get(CloudEventMessageUtils.ID)).isNotNull();
+            MessageHeaders headers = outputMessage.getHeaders();
             assertThat(headers.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
             assertThat(headers.get(PARTITION_KEY)).isEqualTo("id");
 
+            assertThat(CloudEventMessageUtils.getSource(outputMessage)).isEqualTo(SOURCE_URI);
+            assertThat(CloudEventMessageUtils.getSpecVersion(outputMessage)).isEqualTo(VERSION_1_0);
+            assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(WeatherAlert.class.getName());
+            assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
+
+            WeatherAlert payload = deserialize(objectMapper, outputMessage.getPayload(), WeatherAlert.class);
             assertThat(payload).isNotNull();
             assertThat(payload.id()).isEqualTo(weatherAlert.id());
             assertThat(payload.message()).isEqualTo(weatherAlert.message());

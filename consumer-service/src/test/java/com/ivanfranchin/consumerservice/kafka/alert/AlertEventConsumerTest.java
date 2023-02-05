@@ -40,7 +40,7 @@ class AlertEventConsumerTest {
             inputDestination.send(alertEventMessage, DESTINATION_NAME);
 
             assertThat(output).contains("Received Earthquake alert!");
-            assertThat(output).contains("PAYLOAD: EarthquakeAlert(id=id, richterScale=2.1, epicenterLat=1.0, epicenterLon=-1.0)");
+            assertThat(output).contains("PAYLOAD: EarthquakeAlert[id=id, richterScale=2.1, epicenterLat=1.0, epicenterLon=-1.0]");
         }
     }
 
@@ -63,7 +63,7 @@ class AlertEventConsumerTest {
             inputDestination.send(alertEventMessage, DESTINATION_NAME);
 
             assertThat(output).contains("Received Weather alert!");
-            assertThat(output).contains("PAYLOAD: WeatherAlert(id=id, message=message)");
+            assertThat(output).contains("PAYLOAD: WeatherAlert[id=id, message=message]");
         }
     }
 
