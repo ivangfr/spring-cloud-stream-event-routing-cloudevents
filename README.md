@@ -2,6 +2,10 @@
 
 The goal of this project is to play with [`Spring Cloud Stream Event Routing`](https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_event_routing) and [`CloudEvents`](https://cloudevents.io/). For it, we will implement a producer and consumer of `news` & `alert` events.
 
+## Project Diagram
+
+![project-diagram](documentation/project-diagram.jpeg)
+
 ## Applications
 
 - ### producer-service
