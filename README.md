@@ -172,11 +172,3 @@ To remove the Docker images created by this project, go to a terminal and inside
 
 - https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html
 - https://stackoverflow.com/questions/61135632/spring-cloud-function-separate-routing-expression-for-different-consumer
-
-## Issues
-
-When running the native image of `producer-service` and `consumer-service`, the containers don't connect to Kafka. The `KAFKA_HOST` environment variable informed (that is `kafka`) is not replaced correctly as the application is trying to connect to `localhost/127.0.0.1:9092`.
-```
-INFO 1 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Node -1 disconnected.
-WARN 1 --- [| adminclient-1] org.apache.kafka.clients.NetworkClient   : [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Broker may not be available.
-```
