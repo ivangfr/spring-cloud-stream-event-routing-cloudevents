@@ -6,9 +6,7 @@ The goal of this project is to play with [`Spring Cloud Stream Event Routing`](h
 
 On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
 
-## Tutorials
-
-> **I Would Appreciate Your Support**: I’m embarking on a writing journey on [Medium](https://medium.com/@ivangfr) and I would be grateful for your support. If you enjoy my content, please consider [following me](https://medium.com/@ivangfr). **I am committed to following you back**, and together we can share our knowledge and experiences on the platform.
+## Additional Readings
 
 - \[**Medium**\] [**How to Route CloudEvents messages with Spring Cloud Stream**](https://medium.com/@ivangfr/how-to-route-cloudevents-messages-with-spring-cloud-stream-3cf7a5ab4e17)
 
