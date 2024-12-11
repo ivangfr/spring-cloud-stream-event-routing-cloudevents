@@ -16,13 +16,13 @@ public class AlertEventConsumer {
     private static final Logger log = LoggerFactory.getLogger(AlertEventConsumer.class);
 
     @Bean
-    public Consumer<Message<EarthquakeAlert>> earthquakeAlert() {
+    Consumer<Message<EarthquakeAlert>> earthquakeAlert() {
         return message -> log.info(
                 LOG_TEMPLATE, "Received Earthquake alert!", message.getHeaders(), message.getPayload());
     }
 
     @Bean
-    public Consumer<Message<WeatherAlert>> weatherAlert() {
+    Consumer<Message<WeatherAlert>> weatherAlert() {
         return message -> log.info(
                 LOG_TEMPLATE, "Received Weather alert!", message.getHeaders(), message.getPayload());
     }

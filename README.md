@@ -23,7 +23,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### producer-service
 
-  [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to submit `news` & `alert` events.
+  [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) application that exposes a REST API to submit `news` & `alert` events.
 
   Endpoints
   ```
@@ -41,34 +41,34 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 ## Prerequisites
 
 - [`Java 21+`](https://www.oracle.com/java/technologies/downloads/#java21)
-- [`Docker`](https://www.docker.com/)
+- Some containerization tool [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.
 
 ## Start Environment
 
-- Open a terminal and inside `spring-cloud-stream-event-routing-cloudevents` root folder run
+- Open a terminal and inside the `spring-cloud-stream-event-routing-cloudevents` root folder run:
   ```
   docker compose up -d
   ```
 
-- Wait for Docker containers to be up and running. To check it, run
+- Wait for Docker containers to be up and running. To check it, run:
   ```
-  docker compose ps
+  docker ps -a
   ```
 
 ## Running Applications with Maven
 
 - **producer-service**
 
-  - In a terminal, make sure you are in `spring-cloud-stream-event-routing-cloudevents` root folder
-  - Run the command below to start the application
+  - In a terminal, make sure you are in the `spring-cloud-stream-event-routing-cloudevents` root folder;
+  - Run the command below to start the application:
     ```
     ./mvnw clean spring-boot:run --projects producer-service
     ```
 
 - **consumer-service**
 
-  - Open a new terminal and navigate to `spring-cloud-stream-event-routing-cloudevents` root folder
-  - Run the command below to start the application
+  - Open a new terminal and navigate to the `spring-cloud-stream-event-routing-cloudevents` root folder
+  - Run the following command to start the application:
     ```
     ./mvnw clean spring-boot:run --projects consumer-service
     ```
@@ -77,7 +77,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### Build Docker Images
 
-  - In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloudevents` root folder
+  - In a terminal, make sure you are inside the `spring-cloud-stream-event-routing-cloudevents` root folder;
   - Run the following script to build the Docker images
     - JVM
       ```
@@ -108,7 +108,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   - **producer-service**
     
-    Run the following command in a terminal
+    Run the following command in a terminal:
     ```
     docker run --rm --name producer-service -p 9080:9080 \
       -e KAFKA_HOST=kafka -e KAFKA_PORT=9092 \
@@ -118,7 +118,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   - **consumer-service**
     
-    Open a new terminal and run the following command
+    Open a new terminal and run the following command:
     ```
     docker run --rm --name consumer-service -p 9081:9081 \
       -e KAFKA_HOST=kafka -e KAFKA_PORT=9092 \
@@ -154,14 +154,14 @@ In a terminal, submit the following POST requests to `producer-service` and chec
 ## Shutdown
 
 - To stop applications, go to the terminals where they are running and press `Ctrl+C`
-- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `spring-cloud-stream-event-routing-cloudevents` root folder, run the following command
+- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside the `spring-cloud-stream-event-routing-cloudevents` root folder, run the following command:
   ```
   docker compose down -v
   ```
 
 ## Running Test Cases
 
-In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloudevents` root folder
+In a terminal, make sure you are inside the `spring-cloud-stream-event-routing-cloudevents` root folder:
 
 - **producer-service**
   ```
@@ -175,12 +175,7 @@ In a terminal, make sure you are inside `spring-cloud-stream-event-routing-cloud
 
 ## Cleanup
 
-To remove the Docker images created by this project, go to a terminal and inside `spring-cloud-stream-event-routing-cloudevents` root folder, run the following script
+To remove the Docker images created by this project, go to a terminal and inside the `spring-cloud-stream-event-routing-cloudevents` root folder, run the following script:
 ```
 ./remove-docker-images.sh
 ```
-
-## References
-
-- https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html
-- https://stackoverflow.com/questions/61135632/spring-cloud-function-separate-routing-expression-for-different-consumer

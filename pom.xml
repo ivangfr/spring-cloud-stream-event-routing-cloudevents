@@ -5,28 +5,33 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>com.ivanfranchin</groupId>
     <artifactId>spring-cloud-stream-event-routing-cloudevents</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>spring-cloud-stream-event-routing-cloudevents</name>
     <description>Demo project for Spring Boot</description>
-
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
     <properties>
         <java.version>21</java.version>
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
         <cloudevents.version>4.0.1</cloudevents.version>
     </properties>
-
-    <modules>
-        <module>producer-service</module>
-        <module>consumer-service</module>
-    </modules>
-
     <dependencies>
         <dependency>
             <groupId>io.cloudevents</groupId>
@@ -34,7 +39,6 @@
             <version>${cloudevents.version}</version>
         </dependency>
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -47,17 +51,9 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>producer-service</module>
+        <module>consumer-service</module>
+    </modules>
 
 </project>

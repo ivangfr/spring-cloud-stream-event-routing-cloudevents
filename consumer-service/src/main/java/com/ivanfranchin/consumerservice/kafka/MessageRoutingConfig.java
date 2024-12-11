@@ -23,7 +23,7 @@ public class MessageRoutingConfig {
     }
 
     @Bean
-    public MessageRoutingCallback messageRoutingCallback() {
+    MessageRoutingCallback messageRoutingCallback() {
         return new MessageRoutingCallback() {
             @Override
             public String routingResult(Message<?> message) {
@@ -34,7 +34,7 @@ public class MessageRoutingConfig {
     }
 
     @Bean
-    public Consumer<Message<?>> unknownEvent() {
+    Consumer<Message<?>> unknownEvent() {
         return message -> log.warn(LOG_TEMPLATE, "Received unknown event!", message.getHeaders(), message.getPayload());
     }
 
