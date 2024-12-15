@@ -81,11 +81,11 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - Run the following script to build the Docker images
     - JVM
       ```
-      ./docker-build.sh
+      ./build-docker-images.sh
       ```
     - Native
       ```
-      ./docker-build.sh native
+      ./build-docker-images.sh native
       ```
 
 - ### Environment Variables
