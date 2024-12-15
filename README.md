@@ -78,7 +78,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - ### Build Docker Images
 
   - In a terminal, make sure you are inside the `spring-cloud-stream-event-routing-cloudevents` root folder;
-  - Run the following script to build the Docker images
+  - Run the following script to build the Docker images:
     - JVM
       ```
       ./build-docker-images.sh
