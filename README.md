@@ -40,18 +40,18 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 21+`](https://www.oracle.com/java/technologies/downloads/#java21)
-- Some containerization tool [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.
+- [`Java 21`](https://www.oracle.com/java/technologies/downloads/#java21) or higher.
+- A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Start Environment
 
 - Open a terminal and inside the `spring-cloud-stream-event-routing-cloudevents` root folder run:
-  ```
+  ```bash
   docker compose up -d
   ```
 
 - Wait for Docker containers to be up and running. To check it, run:
-  ```
+  ```bash
   docker ps -a
   ```
 
@@ -61,7 +61,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   - In a terminal, make sure you are in the `spring-cloud-stream-event-routing-cloudevents` root folder;
   - Run the command below to start the application:
-    ```
+    ```bash
     ./mvnw clean spring-boot:run --projects producer-service
     ```
 
@@ -69,7 +69,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
   - Open a new terminal and navigate to the `spring-cloud-stream-event-routing-cloudevents` root folder
   - Run the following command to start the application:
-    ```
+    ```bash
     ./mvnw clean spring-boot:run --projects consumer-service
     ```
 
@@ -80,11 +80,11 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - In a terminal, make sure you are inside the `spring-cloud-stream-event-routing-cloudevents` root folder;
   - Run the following script to build the Docker images:
     - JVM
-      ```
+      ```bash
       ./build-docker-images.sh
       ```
     - Native
-      ```
+      ```bash
       ./build-docker-images.sh native
       ```
 
@@ -109,7 +109,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - **producer-service**
     
     Run the following command in a terminal:
-    ```
+    ```bash
     docker run --rm --name producer-service -p 9080:9080 \
       -e KAFKA_HOST=kafka -e KAFKA_PORT=9092 \
       --network=spring-cloud-stream-event-routing-cloudevents_default \
@@ -119,7 +119,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   - **consumer-service**
     
     Open a new terminal and run the following command:
-    ```
+    ```bash
     docker run --rm --name consumer-service -p 9081:9081 \
       -e KAFKA_HOST=kafka -e KAFKA_PORT=9092 \
       --network=spring-cloud-stream-event-routing-cloudevents_default \
@@ -128,19 +128,19 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Playing around
 
-In a terminal, submit the following POST requests to `producer-service` and check its logs and `consumer-service` logs
+In a terminal, submit the following POST requests to `producer-service` and check its logs and the `consumer-service` logs
 
-> **Note**: [HTTPie](https://httpie.org/) is being used in the calls bellow
+> **Note**: [HTTPie](https://httpie.org/) is being used in the calls below.
 
 - **news**
-  ```
+  ```bash
   http :9080/api/news/cnn title="NYC subway strike"
   http :9080/api/news/dw titel="Berliner Untergrundstreik"
   http :9080/api/news/rai titolo="Sciopero della metropolitana di Roma"
   ```
 
 - **alerts**
-  ```
+  ```bash
   http :9080/api/alerts/earthquake richterScale=5.5 epicenterLat=37.7840781 epicenterLon=-25.7977037
   http :9080/api/alerts/weather message="Thunderstorm in Berlin"
   ```
@@ -155,7 +155,7 @@ In a terminal, submit the following POST requests to `producer-service` and chec
 
 - To stop applications, go to the terminals where they are running and press `Ctrl+C`
 - To stop and remove docker compose containers, network and volumes, go to a terminal and, inside the `spring-cloud-stream-event-routing-cloudevents` root folder, run the following command:
-  ```
+  ```bash
   docker compose down -v
   ```
 
@@ -164,18 +164,18 @@ In a terminal, submit the following POST requests to `producer-service` and chec
 In a terminal, make sure you are inside the `spring-cloud-stream-event-routing-cloudevents` root folder:
 
 - **producer-service**
-  ```
+  ```bash
   ./mvnw clean test --projects producer-service
   ```
 
 - **consumer-service**
-  ```
+  ```bash
   ./mvnw clean test --projects consumer-service
   ```
 
 ## Cleanup
 
 To remove the Docker images created by this project, go to a terminal and inside the `spring-cloud-stream-event-routing-cloudevents` root folder, run the following script:
-```
+```bash
 ./remove-docker-images.sh
 ```
