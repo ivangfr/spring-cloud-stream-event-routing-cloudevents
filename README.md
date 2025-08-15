@@ -26,7 +26,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   [`Spring Boot`](https://docs.spring.io/spring-boot/index.html) application that exposes a REST API to submit `news` & `alert` events.
 
   Endpoints
-  ```
+  ```text
   POST /api/news/cnn {"title":"..."}
   POST /api/news/dw {"titel":"..."}
   POST /api/news/rai {"titolo":"..."}

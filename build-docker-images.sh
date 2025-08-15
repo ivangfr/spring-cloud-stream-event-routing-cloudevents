@@ -13,9 +13,23 @@ SKIP_TESTS="true"
 
 if [ "$1" = "native" ];
 then
-  ./mvnw -Pnative clean spring-boot:build-image --projects "$PRODUCER_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$PRODUCER_DOCKER_IMAGE_NAME"
-  ./mvnw -Pnative clean spring-boot:build-image --projects "$CONSUMER_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$CONSUMER_DOCKER_IMAGE_NAME"
+  ./mvnw -Pnative clean spring-boot:build-image \
+    --projects "$PRODUCER_APP_NAME" \
+    -DskipTests="$SKIP_TESTS" \
+    -Dspring-boot.build-image.imageName="$PRODUCER_DOCKER_IMAGE_NAME"
+
+  ./mvnw -Pnative clean spring-boot:build-image \
+    --projects "$CONSUMER_APP_NAME" \
+    -DskipTests="$SKIP_TESTS" \
+    -Dspring-boot.build-image.imageName="$CONSUMER_DOCKER_IMAGE_NAME"
 else
-  ./mvnw clean spring-boot:build-image --projects "$PRODUCER_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$PRODUCER_DOCKER_IMAGE_NAME"
-  ./mvnw clean spring-boot:build-image --projects "$CONSUMER_APP_NAME" -DskipTests="$SKIP_TESTS" -Dspring-boot.build-image.imageName="$CONSUMER_DOCKER_IMAGE_NAME"
+  ./mvnw clean spring-boot:build-image \
+    --projects "$PRODUCER_APP_NAME" \
+    -DskipTests="$SKIP_TESTS" \
+    -Dspring-boot.build-image.imageName="$PRODUCER_DOCKER_IMAGE_NAME"
+
+  ./mvnw clean spring-boot:build-image \
+    --projects "$CONSUMER_APP_NAME" \
+    -DskipTests="$SKIP_TESTS" \
+    -Dspring-boot.build-image.imageName="$CONSUMER_DOCKER_IMAGE_NAME"
 fi
