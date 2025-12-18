@@ -1,7 +1,7 @@
 services:
 
   zookeeper:
-    image: 'confluentinc/cp-zookeeper:7.8.0'
+    image: 'confluentinc/cp-zookeeper:7.9.5'
     container_name: 'zookeeper'
     ports:
       - '2181:2181'
@@ -11,7 +11,7 @@ services:
       test: 'echo stat | nc localhost $$ZOOKEEPER_CLIENT_PORT'
 
   kafka:
-    image: 'confluentinc/cp-kafka:7.8.0'
+    image: 'confluentinc/cp-kafka:7.9.5'
     container_name: 'kafka'
     depends_on:
       - 'zookeeper'
@@ -27,7 +27,7 @@ services:
       test: [ "CMD", "nc", "-z", "localhost", "9092" ]
 
   kafdrop:
-    image: 'obsidiandynamics/kafdrop:4.1.0'
+    image: 'obsidiandynamics/kafdrop:4.2.0'
     container_name: 'kafdrop'
     depends_on:
       - 'kafka'
