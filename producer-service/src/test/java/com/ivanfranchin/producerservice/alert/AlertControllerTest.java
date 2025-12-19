@@ -1,13 +1,13 @@
 package com.ivanfranchin.producerservice.alert;
 
-import com.ivanfranchin.producerservice.alert.event.EarthquakeAlert;
-import com.ivanfranchin.producerservice.alert.event.WeatherAlert;
 import com.ivanfranchin.producerservice.alert.dto.CreateEarthquakeAlertRequest;
 import com.ivanfranchin.producerservice.alert.dto.CreateWeatherAlertRequest;
+import com.ivanfranchin.producerservice.alert.event.EarthquakeAlert;
+import com.ivanfranchin.producerservice.alert.event.WeatherAlert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

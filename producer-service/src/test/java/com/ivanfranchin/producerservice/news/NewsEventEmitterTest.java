@@ -1,6 +1,5 @@
 package com.ivanfranchin.producerservice.news;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivanfranchin.producerservice.news.event.CNNNewsCreated;
 import com.ivanfranchin.producerservice.news.event.DWNewsCreated;
 import com.ivanfranchin.producerservice.news.event.RAINewsCreated;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URI;

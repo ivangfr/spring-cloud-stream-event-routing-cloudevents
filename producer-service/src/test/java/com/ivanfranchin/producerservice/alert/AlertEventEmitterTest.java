@@ -1,6 +1,5 @@
 package com.ivanfranchin.producerservice.alert;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivanfranchin.producerservice.ProducerServiceApplication;
 import com.ivanfranchin.producerservice.alert.event.EarthquakeAlert;
 import com.ivanfranchin.producerservice.alert.event.WeatherAlert;
@@ -14,8 +13,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +47,7 @@ class AlertEventEmitterTest {
             assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(EarthquakeAlert.class.getName());
             assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
 
-            EarthquakeAlert payload = deserialize(objectMapper, outputMessage.getPayload(), EarthquakeAlert.class);
+            EarthquakeAlert payload = objectMapper.readValue(outputMessage.getPayload(), EarthquakeAlert.class);
             assertThat(payload).isNotNull();
             assertThat(payload.id()).isEqualTo(earthquakeAlert.id());
             assertThat(payload.richterScale()).isEqualTo(earthquakeAlert.richterScale());
@@ -83,18 +82,10 @@ class AlertEventEmitterTest {
             assertThat(CloudEventMessageUtils.getType(outputMessage)).isEqualTo(WeatherAlert.class.getName());
             assertThat(CloudEventMessageUtils.getId(outputMessage)).isNotNull();
 
-            WeatherAlert payload = deserialize(objectMapper, outputMessage.getPayload(), WeatherAlert.class);
+            WeatherAlert payload = objectMapper.readValue(outputMessage.getPayload(), WeatherAlert.class);
             assertThat(payload).isNotNull();
             assertThat(payload.id()).isEqualTo(weatherAlert.id());
             assertThat(payload.message()).isEqualTo(weatherAlert.message());
-        }
-    }
-
-    private <T> T deserialize(ObjectMapper objectMapper, byte[] bytes, Class<T> clazz) {
-        try {
-            return objectMapper.readValue(bytes, clazz);
-        } catch (IOException e) {
-            return null;
         }
     }
 
